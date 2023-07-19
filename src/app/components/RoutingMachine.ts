@@ -1,8 +1,9 @@
-import L from 'leaflet'
-import { createControlComponent } from "@react-leaflet/core"
-import 'leaflet-routing-machine'
+declare var L:any;
+import 'leaflet';
+import 'leaflet-routing-machine';
+import {createControlComponent} from "@react-leaflet/core"
 
-const createRoutingMachineLayer = (waypoints: L.LatLng[]) => {
+const createRoutingMachineLayer = () => {
 
   const instance = L.Routing.control({
     // TODO: To use state for dynamic markers
