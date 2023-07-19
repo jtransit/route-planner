@@ -2,7 +2,7 @@ import L from 'leaflet'
 import { createControlComponent } from "@react-leaflet/core"
 import 'leaflet-routing-machine'
 
-const createRoutingMachineLayer = (waypoints: any) => {
+const createRoutingMachineLayer = (waypoints: L.LatLng[]) => {
 
   const instance = L.Routing.control({
     // TODO: To use state for dynamic markers
@@ -11,7 +11,7 @@ const createRoutingMachineLayer = (waypoints: any) => {
       L.latLng(10.315234, 123.901631)
     ],
     lineOptions: {
-      styles: [{ color: "#FF2D00", weight: 5 }]
+      styles: [{color: "#FF2D00", weight: 5}]
     },
     show: false,
     addWaypoints: false,

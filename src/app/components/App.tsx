@@ -11,7 +11,7 @@ type MarkersProps = {
   addMarker: (newMarker: L.LatLng) => void
 }
 
-function Markers({addMarker}: MarkersProps) {
+const Markers = ({addMarker}: MarkersProps) => {
 
   useMapEvents({
     click: (location) => {
@@ -23,7 +23,7 @@ function Markers({addMarker}: MarkersProps) {
   return null;
 }
 
-function App() {
+const App = () => {
 
   const [markers, setMarkers] = useState<L.LatLng[]>([]);
 
