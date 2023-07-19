@@ -1,6 +1,6 @@
 "use client";
-import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet'
-import { useState } from 'react';
+import {MapContainer, TileLayer, useMapEvents} from 'react-leaflet'
+import {useState} from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -8,50 +8,49 @@ import RoutingMachine from '@components/RoutingMachine';
 
 type MarkersProps = {
 
-    addMarker: (newMarker: any) => void
+  addMarker: (newMarker: L.LatLng) => void
 }
 
 function Markers({addMarker}: MarkersProps) {
 
-    useMapEvents({
-        click: (location) => {
+  useMapEvents({
+    click: (location) => {
 
-            addMarker(L.latLng(location.latlng.lat, location.latlng.lng))
-        }
-    })
+      addMarker(L.latLng(location.latlng.lat, location.latlng.lng))
+    }
+  })
 
-    return null;
+  return null;
 }
 
 function App() {
 
-    const [markers, setMarkers] = useState<any[]>([]);
+  const [markers, setMarkers] = useState<L.LatLng[]>([]);
 
-    const addMarker = (newMarker: any) => {
+  const addMarker = (newMarker: L.LatLng) => {
 
-        setMarkers([...markers, newMarker])
-    }
+    setMarkers([...markers, newMarker])
+  }
 
-    return (
-        <>
-            <MapContainer
-                center={[10.323267, 123.905601]} // Cebu City
-                zoom={13}
-                scrollWheelZoom={true}
-                style={{ height: '100vh', width: '100wh' }}
-            >
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
+  return (
+    <>
+      <MapContainer
+        center={[10.323267, 123.905601]} // Cebu City
+        zoom={13}
+        scrollWheelZoom={true}
+        style={{ height: '100vh', width: '100wh' }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
 
-                <Markers addMarker={addMarker}/>
+        <Markers addMarker={addMarker} />
+        <RoutingMachine />
 
-                <RoutingMachine />
-                
-            </MapContainer>
-        </>
-    )
+      </MapContainer>
+    </>
+  )
 }
 
 export default App
