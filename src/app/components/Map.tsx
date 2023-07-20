@@ -5,6 +5,18 @@ import RoutingMachine from '@components/RoutingMachine'
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
+let DefaultIcon = L.icon({
+  iconUrl: icon.src,
+  shadowUrl: iconShadow.src,
+  iconAnchor: [0, 51],
+  popupAnchor: [0, -51]
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
+
 type MarkersProps = {
 
   addMarker: (newMarker: L.LatLng) => void
