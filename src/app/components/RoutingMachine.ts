@@ -1,5 +1,4 @@
-declare var L:any;
-import 'leaflet';
+import L from 'leaflet';
 import 'leaflet-routing-machine';
 import {createControlComponent} from "@react-leaflet/core"
 
@@ -12,12 +11,13 @@ const createRoutingMachineLayer = () => {
       L.latLng(10.315234, 123.901631)
     ],
     lineOptions: {
-      styles: [{color: "#FF2D00", weight: 5}]
+      styles: [{color: "#FF2D00", weight: 5}],
+      extendToWaypoints: true,
+      missingRouteTolerance: 0
     },
     show: false,
     addWaypoints: false,
     routeWhileDragging: true,
-    draggableWaypoints: true,
     fitSelectedRoutes: true,
     showAlternatives: false
   });
