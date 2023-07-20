@@ -33,23 +33,21 @@ const App = () => {
   }
 
   return (
-    <>
-      <MapContainer
-        center={[10.323267, 123.905601]} // Cebu City
-        zoom={13}
-        scrollWheelZoom={true}
-        style={{ height: '100vh', width: '100wh' }}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+    <MapContainer
+      center={[10.323267, 123.905601]} // Cebu City
+      zoom={13}
+      scrollWheelZoom={true}
+      style={{ height: '100vh', width: '100wh' }}
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
 
-        <Markers addMarker={addMarker} />
-        <RoutingMachine />
+      <Markers addMarker={addMarker} />
+      <RoutingMachine />
 
-      </MapContainer>
-    </>
+    </MapContainer>
   )
 }
 
