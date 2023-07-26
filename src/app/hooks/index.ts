@@ -1,4 +1,4 @@
-import useAppContextState from "./useAppContextState";
-import useMapContextState from "./useMapContextState";
+import useAppContextState from "@hooks/useAppContextState";
+import useMapContextState from "@hooks/useMapContextState";
 
 export { useAppContextState, useMapContextState };
