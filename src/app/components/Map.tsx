@@ -1,6 +1,8 @@
-import React, {useState} from 'react'
-import {MapContainer, TileLayer, useMapEvents} from 'react-leaflet'
-import RoutingMachine from '@components/RoutingMachine'
+import React from 'react'
+import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet'
+import '@components/assets/maps.css'
+
+import { routeControl } from '@components/RoutingControl'
 
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -17,31 +19,41 @@ let DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-type MarkersProps = {
+const Markers = () => {
 
-  addMarker: (newMarker: L.LatLng) => void
-}
+  const map = useMapEvents({
+    dblclick: (event) => {
+      
+      const newWaypoint = L.latLng(event.latlng.lat, event.latlng.lng)
+      const waypoints = getRouteWaypoints()
 
-const Markers = ({ addMarker }: MarkersProps) => {
+      waypoints.push(newWaypoint)
 
-  useMapEvents({
-    click: (location) => {
-
-      addMarker(L.latLng(location.latlng.lat, location.latlng.lng))
+      routeControl.setWaypoints(waypoints).addTo(map)
     }
   })
 
   return null;
 }
 
-const Map = () => {
+const getRouteWaypoints = (): L.LatLng[] => {
 
-  const [markers, setMarkers] = useState<L.LatLng[]>([]);
+  let waypoints: L.LatLng[] = []
 
-  const addMarker = (newMarker: L.LatLng) => {
+  const currentWaypoints = routeControl.getWaypoints()
 
-    setMarkers([...markers, newMarker])
+  for (const item of currentWaypoints) {
+
+    if (item.latLng?.lat && item.latLng?.lng) {
+
+      waypoints.push( L.latLng(item.latLng.lat, item.latLng.lng) )
+    }
   }
+
+  return waypoints
+}
+
+const Map = () => {
 
   return (
     <MapContainer
@@ -55,8 +67,7 @@ const Map = () => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      <Markers addMarker={addMarker} />
-      <RoutingMachine />
+      <Markers />
 
     </MapContainer>
   )

@@ -1,9 +1,15 @@
-export interface AppContext {
+import { ReactNode } from "react";
+
+export interface AppContextProps {
   isLoading: boolean;
-  handleLoading: () => void;
+  handleLoading: (value: boolean) => void;
 }
 
-export const defaultAppContext: AppContext = {
+export const defaultAppContext: AppContextProps = {
   isLoading: false,
   handleLoading: () => {},
 };
+
+export interface AppContextProviderProps {
+  children: ReactNode
+}

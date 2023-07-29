@@ -2,8 +2,8 @@
 import { useMemo } from "react";
 import dynamic from "next/dynamic";
 
-import { useAppContextState } from "@contexts/AppContext";
-import { Loader } from "./Loader";
+import useAppContextState from "@hooks/useAppContextState";
+import { Loader } from "@components/Loader";
 
 const App = () => {
   const { isLoading } = useAppContextState();
@@ -19,7 +19,9 @@ const App = () => {
 
   return (
     <>
-      isLoading && <Loader /> // TODO: create a global loader
+      {
+        isLoading && <Loader /> // TODO: create a global loader
+      }
       <Map />
     </>
   );
