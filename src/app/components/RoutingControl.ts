@@ -15,3 +15,17 @@ export const routeControl = L.Routing.control({
   showAlternatives: false,
   containerClassName: 'display-none'
 });
+
+export const getRouteWaypoints = (): L.LatLng[] => {
+  const waypoints: L.LatLng[] = [];
+
+  const currentWaypoints = routeControl.getWaypoints();
+  
+  for (const item of currentWaypoints) {
+    if (item.latLng?.lat && item.latLng?.lng) {
+      waypoints.push(L.latLng(item.latLng.lat, item.latLng.lng));
+    }
+  }
+
+  return waypoints;
+};

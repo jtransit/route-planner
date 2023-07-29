@@ -11,5 +11,5 @@ export const defaultAppContext: AppContextProps = {
 };
 
 export interface AppContextProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
