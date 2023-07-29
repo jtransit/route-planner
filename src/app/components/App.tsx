@@ -1,20 +1,28 @@
 "use client";
-import {useMemo} from 'react';
-import dynamic from 'next/dynamic';
+import { useMemo } from "react";
+import dynamic from "next/dynamic";
+
+import { useAppContext } from "@contexts/AppContext";
+import { Loader } from "@components/Loader";
 
 const App = () => {
+  const { isLoading } = useAppContext();
 
-  const Map = useMemo(() => dynamic(
-    () => import('@components/Map'),
-    {
-      loading: () => <p>Loading...</p>,
-      ssr: false
-    }
-  ), []);
+  const Map = useMemo(
+    () =>
+      dynamic(() => import("@components/Map"), {
+        loading: () => <Loader />,
+        ssr: false,
+      }),
+    []
+  );
 
   return (
-    <Map />
-  )
-}
+    <>
+      {isLoading && <Loader />}
+      <Map />
+    </>
+  );
+};
 
-export default App
+export default App;
