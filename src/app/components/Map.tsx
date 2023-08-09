@@ -13,7 +13,7 @@ import { Menu } from '@components/contextMenu/Menu';
 L.Marker.prototype.options.icon = L.icon({
   iconUrl: icon.src,
   shadowUrl: iconShadow.src,
-  iconAnchor: [0, 51],
+  iconAnchor: [15, 40],
   popupAnchor: [0, -51],
 });
 
