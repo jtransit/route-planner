@@ -8,7 +8,7 @@ export interface MapContextProps {
   containerPoint: L.Point;
   latLng: L.LatLng;
   handleLoading: (v: boolean) => void;
-  handleAction: (v: string) => void;
+  handleAction: (v?: string) => void;
   handleContextMenuOpen: (v: boolean) => void;
   handleContainerPoint: (v: L.Point) => void;
   handleLatLng: (v: L.LatLng) => void;
@@ -21,7 +21,7 @@ export const defaultMapContext: MapContextProps = {
   containerPoint: new L.Point(0, 0),
   latLng: new L.LatLng(0, 0),
   handleLoading: () => {},
-  handleAction: (v: string) => {},
+  handleAction: (v?: string) => {},
   handleContextMenuOpen: () => {},
   handleContainerPoint: (v: L.Point) => {},
   handleLatLng: (v: L.LatLng) => {},

@@ -26,19 +26,24 @@ export const Markers = () => {
     handleLatLng(e.latlng);
   };
 
+  const handleReset = () => {
+    handleContextMenuOpen(false);
+    handleAction();
+  };
+
   useMapEvents({
     click: (e) => {
-      isContextMenuElement(e) && handleContextMenuOpen(false);
+      isContextMenuElement(e) && handleReset();
       if (isMarker(e)) {
         handleAction(actions.marker);
         handleContextMenu(e);
       }
     },
     zoom: () => {
-      handleContextMenuOpen(false);
+      handleReset();
     },
     dragstart: () => {
-      handleContextMenuOpen(false);
+      handleReset();
     },
     contextmenu: (e) => {
       if (isMarker(e)) return;
