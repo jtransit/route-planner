@@ -46,7 +46,7 @@ export const Markers = () => {
       handleReset();
     },
     contextmenu: (e) => {
-      if (isMarker(e)) return;
+      isMarker(e) && handleAction(actions.marker);
       handleContextMenu(e);
     },
   });
