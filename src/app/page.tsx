@@ -1,5 +1,5 @@
-import App from "@components/App";
-import { AppContextProvider } from "@contexts/AppContext";
+import App from '@components/map-wrapper';
+import { AppContextProvider } from '@contexts/app-context';
 
 export default function Home() {
   return (

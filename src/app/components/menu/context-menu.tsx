@@ -1,4 +1,4 @@
-import { useMapContext } from '@contexts/MapContext';
+import { useMapContext } from '@contexts/map-context';
 import { actions } from '@components/map/actions';
 
 export const Menu = () => {

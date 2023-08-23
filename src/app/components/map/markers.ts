@@ -1,7 +1,7 @@
 import { useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 
-import { useMapContext } from '@contexts/MapContext';
+import { useMapContext } from '@contexts/map-context';
 import { actions } from '@components/map/actions';
 
 export const Markers = () => {
