@@ -30,8 +30,14 @@ const useMapContextState: () => MapContextProps = () => {
     setAction(v);
   };
 
-  const handleContextMenuOpen = (v: boolean) => {
-    setIsContextMenuOpen(v);
+  const handleContextMenuOpen = (e: L.LeafletMouseEvent) => {
+    setIsContextMenuOpen(true);
+    handleContainerPoint(e.containerPoint);
+    handleLatLng(e.latlng);
+  };
+
+  const handleContextMenuClose = () => {
+    setIsContextMenuOpen(false);
   };
 
   const handleContainerPoint = (v: L.Point) => {
@@ -48,7 +54,7 @@ const useMapContextState: () => MapContextProps = () => {
 
     waypoints.push(newWaypoint);
     routeControl.setWaypoints(waypoints).addTo(map);
-    handleContextMenuOpen(false);
+    handleContextMenuClose();
   };
 
   return {
@@ -60,8 +66,7 @@ const useMapContextState: () => MapContextProps = () => {
     handleLoading,
     handleAction,
     handleContextMenuOpen,
-    handleContainerPoint,
-    handleLatLng,
+    handleContextMenuClose,
     handleAddMarker,
   };
 };

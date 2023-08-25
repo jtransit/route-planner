@@ -1,7 +1,7 @@
 'use client';
 import { createContext, useContext } from 'react';
 
-import useAppContextState from '@hooks/use-app-context';
+import useAppContextState from '@hooks/use-app-context-state';
 import {
   AppContextProps,
   defaultAppContext,

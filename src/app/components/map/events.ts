@@ -4,36 +4,32 @@ import L from 'leaflet';
 import { useMapContext } from '@contexts/map-context';
 import { actions } from '@components/map/actions';
 
-export const Markers = () => {
-  const {
-    handleContextMenuOpen,
-    handleContainerPoint,
-    handleLatLng,
-    handleAction,
-  } = useMapContext();
+const MARKER = 'Marker';
+
+export const Events = () => {
+  const { handleContextMenuOpen, handleContextMenuClose, handleAction } =
+    useMapContext();
 
   const isMarker = (e: L.LeafletMouseEvent) => {
-    return (e.originalEvent.target as HTMLInputElement).alt === 'Marker';
+    return (e.originalEvent.target as HTMLInputElement).alt === MARKER;
   };
 
-  const isContextMenuElement = (e: L.LeafletMouseEvent) => {
+  const isContextMenu = (e: L.LeafletMouseEvent) => {
     return (e.originalEvent.target as HTMLInputElement).id === '';
   };
 
   const handleContextMenu = (e: L.LeafletMouseEvent) => {
-    handleContextMenuOpen(true);
-    handleContainerPoint(e.containerPoint);
-    handleLatLng(e.latlng);
+    handleContextMenuOpen(e);
   };
 
   const handleReset = () => {
-    handleContextMenuOpen(false);
+    handleContextMenuClose();
     handleAction();
   };
 
   useMapEvents({
     click: (e) => {
-      isContextMenuElement(e) && handleReset();
+      isContextMenu(e) && handleReset();
       if (isMarker(e)) {
         handleAction(actions.marker);
         handleContextMenu(e);
@@ -46,7 +42,8 @@ export const Markers = () => {
       handleReset();
     },
     contextmenu: (e) => {
-      isMarker(e) && handleAction(actions.marker);
+      const action = isMarker(e) ? actions.marker : undefined;
+      handleAction(action);
       handleContextMenu(e);
     },
   });

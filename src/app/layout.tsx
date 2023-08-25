@@ -6,7 +6,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'JTransit Routes Plotter',
+  title: 'JTransit Routes Planner',
   description: 'Cebu Jeepney Navigation',
 };
 
