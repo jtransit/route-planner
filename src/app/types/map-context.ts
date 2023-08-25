@@ -7,13 +7,12 @@ export interface MapContextProps {
   action?: string;
   containerPoint: L.Point;
   latLng: L.LatLng;
-  from?: L.LatLng;
-  to?: L.LatLng;
   handleLoading: (v: boolean) => void;
   handleAction: (v?: string) => void;
   handleContextMenuOpen: (e: L.LeafletMouseEvent) => void;
   handleContextMenuClose: () => void;
-  handleAddMarker: () => void;
+  handleAddFrom: () => void;
+  handleAddTo: () => void;
 }
 
 export const defaultMapContext: MapContextProps = {
@@ -25,7 +24,8 @@ export const defaultMapContext: MapContextProps = {
   handleAction: (v?: string) => {},
   handleContextMenuOpen: (e: L.LeafletMouseEvent) => {},
   handleContextMenuClose: () => {},
-  handleAddMarker: () => {},
+  handleAddFrom: () => {},
+  handleAddTo: () => {},
 };
 
 export interface MapContextProviderProps {

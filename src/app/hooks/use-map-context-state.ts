@@ -20,9 +20,6 @@ const useMapContextState: () => MapContextProps = () => {
 
   const [latLng, setLatLng] = useState<L.LatLng>(defaultMapContext.latLng);
 
-  const [from, setFrom] = useState<L.LatLng | undefined>();
-  const [to, setTo] = useState<L.LatLng | undefined>();
-
   const [action, setAction] = useState<string>();
 
   const handleLoading = (v: boolean) => {
@@ -51,18 +48,17 @@ const useMapContextState: () => MapContextProps = () => {
     setLatLng(v);
   };
 
-  const handleAddMarker = () => {
-    const waypoints = routeControl.getWaypoints();
-    const waypoint = new L.Routing.Waypoint(latLng, '', {});
+  const handleAddFrom = () => {
+    routeControl.spliceWaypoints(0, 1, new L.Routing.Waypoint(latLng, '', {}));
+    handleContextMenuClose();
+  };
 
-    if (!from) {
-      setFrom(latLng);
-      routeControl.spliceWaypoints(0, 1, waypoint);
-    } else if (!to) {
-      setTo(latLng);
-      routeControl.spliceWaypoints(waypoints.length - 1, 1, waypoint);
-    }
-
+  const handleAddTo = () => {
+    routeControl.spliceWaypoints(
+      routeControl.getWaypoints().length - 1,
+      1,
+      new L.Routing.Waypoint(latLng, '', {})
+    );
     handleContextMenuClose();
   };
 
@@ -76,13 +72,12 @@ const useMapContextState: () => MapContextProps = () => {
     action,
     containerPoint,
     latLng,
-    from,
-    to,
     handleLoading,
     handleAction,
     handleContextMenuOpen,
     handleContextMenuClose,
-    handleAddMarker,
+    handleAddFrom,
+    handleAddTo,
   };
 };
 

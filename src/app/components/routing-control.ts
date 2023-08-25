@@ -4,7 +4,7 @@ import 'leaflet-routing-machine';
 export const routeControl = new L.Routing.Control({
   waypoints: [],
   lineOptions: {
-    styles: [{ color: '#FF2D00', weight: 5 }],
+    styles: [{ color: '#0ea5e9', weight: 5 }],
     extendToWaypoints: true,
     missingRouteTolerance: 0,
   },
