@@ -1,7 +1,7 @@
 import L from 'leaflet';
 import 'leaflet-routing-machine';
 
-export const routeControl = L.Routing.control({
+export const routeControl = new L.Routing.Control({
   waypoints: [],
   lineOptions: {
     styles: [{ color: '#FF2D00', weight: 5 }],
