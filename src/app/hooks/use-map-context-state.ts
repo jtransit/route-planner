@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
 
 import { MapContextProps, defaultMapContext } from '@app-types/map-context';
-import { routeControl, getRouteWaypoints } from '@components/routing-control';
+import { routeControl } from '@components/routing-control';
 
 const useMapContextState: () => MapContextProps = () => {
   const map = useMap();
@@ -30,8 +30,14 @@ const useMapContextState: () => MapContextProps = () => {
     setAction(v);
   };
 
-  const handleContextMenuOpen = (v: boolean) => {
-    setIsContextMenuOpen(v);
+  const handleContextMenuOpen = (e: L.LeafletMouseEvent) => {
+    setIsContextMenuOpen(true);
+    handleContainerPoint(e.containerPoint);
+    handleLatLng(e.latlng);
+  };
+
+  const handleContextMenuClose = () => {
+    setIsContextMenuOpen(false);
   };
 
   const handleContainerPoint = (v: L.Point) => {
@@ -42,14 +48,23 @@ const useMapContextState: () => MapContextProps = () => {
     setLatLng(v);
   };
 
-  const handleAddMarker = () => {
-    const newWaypoint = L.latLng(latLng.lat, latLng.lng);
-    const waypoints = getRouteWaypoints();
-
-    waypoints.push(newWaypoint);
-    routeControl.setWaypoints(waypoints).addTo(map);
-    handleContextMenuOpen(false);
+  const handleAddFrom = () => {
+    routeControl.spliceWaypoints(0, 1, new L.Routing.Waypoint(latLng, '', {}));
+    handleContextMenuClose();
   };
+
+  const handleAddTo = () => {
+    routeControl.spliceWaypoints(
+      routeControl.getWaypoints().length - 1,
+      1,
+      new L.Routing.Waypoint(latLng, '', {})
+    );
+    handleContextMenuClose();
+  };
+
+  useEffect(() => {
+    routeControl.addTo(map);
+  }, []);
 
   return {
     isLoading,
@@ -60,9 +75,9 @@ const useMapContextState: () => MapContextProps = () => {
     handleLoading,
     handleAction,
     handleContextMenuOpen,
-    handleContainerPoint,
-    handleLatLng,
-    handleAddMarker,
+    handleContextMenuClose,
+    handleAddFrom,
+    handleAddTo,
   };
 };
 

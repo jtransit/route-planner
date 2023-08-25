@@ -3,9 +3,9 @@ import dynamic from 'next/dynamic';
 
 import Loading from '@app/loading';
 
-const MapWrapper = dynamic(() => import('@components/map-component'), {
+const Wrapper = dynamic(() => import('@components/map/component'), {
   loading: () => <Loading />,
   ssr: false,
 });
 
-export default MapWrapper;
+export default Wrapper;

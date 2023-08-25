@@ -1,7 +1,7 @@
 'use client';
 import { createContext, useContext } from 'react';
 
-import useMapContextState from '@hooks/use-map-context';
+import useMapContextState from '@hooks/use-map-context-state';
 import {
   MapContextProps,
   defaultMapContext,
