@@ -2,7 +2,7 @@ import { useMapContext } from '@contexts/map-context';
 import { actions } from '@components/map/actions';
 
 export const Menu = () => {
-  const { isContextMenuOpen, action, containerPoint, handleAddMarker } =
+  const { isContextMenuOpen, action, containerPoint, from, handleAddMarker } =
     useMapContext();
 
   return (
@@ -30,7 +30,9 @@ export const Menu = () => {
                   onClick={handleAddMarker}
                   style={{ cursor: 'pointer' }}
                 >
-                  Add marker
+                  {from === undefined
+                    ? 'Directions from here'
+                    : 'Directions to here'}
                 </a>
               )}
               {action === actions.marker && (

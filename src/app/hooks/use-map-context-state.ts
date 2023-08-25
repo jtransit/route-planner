@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
 
 import { MapContextProps, defaultMapContext } from '@app-types/map-context';
-import { routeControl, getRouteWaypoints } from '@components/routing-control';
+import { routeControl } from '@components/routing-control';
 
 const useMapContextState: () => MapContextProps = () => {
   const map = useMap();
@@ -19,6 +19,9 @@ const useMapContextState: () => MapContextProps = () => {
   );
 
   const [latLng, setLatLng] = useState<L.LatLng>(defaultMapContext.latLng);
+
+  const [from, setFrom] = useState<L.LatLng | undefined>();
+  const [to, setTo] = useState<L.LatLng | undefined>();
 
   const [action, setAction] = useState<string>();
 
@@ -49,13 +52,23 @@ const useMapContextState: () => MapContextProps = () => {
   };
 
   const handleAddMarker = () => {
-    const newWaypoint = L.latLng(latLng.lat, latLng.lng);
-    const waypoints = getRouteWaypoints();
+    const waypoints = routeControl.getWaypoints();
+    const waypoint = new L.Routing.Waypoint(latLng, '', {});
 
-    waypoints.push(newWaypoint);
-    routeControl.setWaypoints(waypoints).addTo(map);
+    if (!from) {
+      setFrom(latLng);
+      routeControl.spliceWaypoints(0, 1, waypoint);
+    } else if (!to) {
+      setTo(latLng);
+      routeControl.spliceWaypoints(waypoints.length - 1, 1, waypoint);
+    }
+
     handleContextMenuClose();
   };
+
+  useEffect(() => {
+    routeControl.addTo(map);
+  }, []);
 
   return {
     isLoading,
@@ -63,6 +76,8 @@ const useMapContextState: () => MapContextProps = () => {
     action,
     containerPoint,
     latLng,
+    from,
+    to,
     handleLoading,
     handleAction,
     handleContextMenuOpen,
