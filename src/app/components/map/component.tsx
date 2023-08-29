@@ -22,6 +22,7 @@ const Component = () => {
     <MapContainer
       center={[10.323267, 123.905601]}
       zoom={13}
+      zoomControl={false}
       scrollWheelZoom={true}
       style={{ height: '100vh', width: '100wh' }}
     >
