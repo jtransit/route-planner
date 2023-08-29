@@ -1,14 +1,9 @@
 import { useMapContext } from '@contexts/map-context';
-import { actions } from '@components/map/actions';
+import ContextMenuItem from './context-menu-item';
 
 export const Menu = () => {
-  const {
-    isContextMenuOpen,
-    action,
-    containerPoint,
-    handleAddFrom,
-    handleAddTo,
-  } = useMapContext();
+  const { isContextMenuOpen, containerPoint, handleAddFrom, handleAddTo } =
+    useMapContext();
 
   return (
     <>
@@ -28,37 +23,11 @@ export const Menu = () => {
           }}
         >
           <ul>
-            <li className='hover:bg-gray-200 p-1'>
-              {action === undefined && (
-                <a
-                  id='context-menu-add-marker'
-                  onClick={handleAddFrom}
-                  style={{ cursor: 'pointer' }}
-                >
-                  Directions from here
-                </a>
-              )}
-              {action === actions.marker && (
-                <a
-                  id='context-menu-remove-marker'
-                  onClick={() => {}}
-                  style={{ cursor: 'pointer' }}
-                >
-                  Remove marker
-                </a>
-              )}
-            </li>
-            <li className='hover:bg-gray-200 p-1'>
-              {action === undefined && (
-                <a
-                  id='context-menu-add-marker'
-                  onClick={handleAddTo}
-                  style={{ cursor: 'pointer' }}
-                >
-                  Directions to here
-                </a>
-              )}
-            </li>
+            <ContextMenuItem
+              name='Directions from here'
+              handler={handleAddFrom}
+            />
+            <ContextMenuItem name='Directions to here' handler={handleAddTo} />
           </ul>
         </div>
       )}
