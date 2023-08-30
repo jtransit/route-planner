@@ -9,6 +9,7 @@ import '@components/assets/maps.css';
 import { MapContextProvider } from '@contexts/map-context';
 import { Events } from '@components/map/events';
 import { Menu } from '@components/menu/context-menu';
+import NavigationMenu from '@components/menu/navigation-menu';
 
 L.Marker.prototype.options.icon = L.icon({
   iconUrl: icon.src,
@@ -31,6 +32,7 @@ const Component = () => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         />
+        <NavigationMenu />
         <Events />
         <Menu />
       </MapContextProvider>
