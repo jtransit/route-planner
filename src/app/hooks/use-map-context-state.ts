@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
 
+import useRoutingControl from '@hooks/use-routing-control';
 import { MapContextProps, defaultMapContext } from '@app-types/map-context';
-import { routeControl } from '@components/routing-control';
 
 const useMapContextState: () => MapContextProps = () => {
   const map = useMap();
+  const { routingControl, waypoints, handleSpliceWaypoints } =
+    useRoutingControl();
 
   const [isLoading, setIsLoading] = useState(defaultMapContext.isLoading);
 
@@ -19,6 +21,14 @@ const useMapContextState: () => MapContextProps = () => {
   );
 
   const [latLng, setLatLng] = useState<L.LatLng>(defaultMapContext.latLng);
+
+  const from = useMemo(() => {
+    return waypoints[0].latLng;
+  }, [waypoints]);
+
+  const to = useMemo(() => {
+    return waypoints[waypoints.length - 1].latLng;
+  }, [waypoints]);
 
   const [action, setAction] = useState<string>();
 
@@ -49,21 +59,17 @@ const useMapContextState: () => MapContextProps = () => {
   };
 
   const handleAddFrom = () => {
-    routeControl.spliceWaypoints(0, 1, new L.Routing.Waypoint(latLng, '', {}));
+    handleSpliceWaypoints(0, 1, latLng);
     handleContextMenuClose();
   };
 
   const handleAddTo = () => {
-    routeControl.spliceWaypoints(
-      routeControl.getWaypoints().length - 1,
-      1,
-      new L.Routing.Waypoint(latLng, '', {})
-    );
+    handleSpliceWaypoints(waypoints.length - 1, 1, latLng);
     handleContextMenuClose();
   };
 
   useEffect(() => {
-    routeControl.addTo(map);
+    routingControl.addTo(map);
   }, []);
 
   return {
@@ -72,6 +78,8 @@ const useMapContextState: () => MapContextProps = () => {
     action,
     containerPoint,
     latLng,
+    from,
+    to,
     handleLoading,
     handleAction,
     handleContextMenuOpen,

@@ -7,6 +7,8 @@ export interface MapContextProps {
   action?: string;
   containerPoint: L.Point;
   latLng: L.LatLng;
+  from: L.LatLng;
+  to: L.LatLng;
   handleLoading: (v: boolean) => void;
   handleAction: (v?: string) => void;
   handleContextMenuOpen: (e: L.LeafletMouseEvent) => void;
@@ -20,6 +22,8 @@ export const defaultMapContext: MapContextProps = {
   isContextMenuOpen: false,
   containerPoint: new L.Point(0, 0),
   latLng: new L.LatLng(0, 0),
+  from: new L.LatLng(0, 0),
+  to: new L.LatLng(0, 0),
   handleLoading: () => {},
   handleAction: (v?: string) => {},
   handleContextMenuOpen: (e: L.LeafletMouseEvent) => {},

@@ -1,7 +1,6 @@
-import L from 'leaflet';
 import 'leaflet-routing-machine';
 
-export const routeControl = new L.Routing.Control({
+export const routingControlOptions = {
   waypoints: [],
   lineOptions: {
     styles: [{ color: '#0ea5e9', weight: 5 }],
@@ -14,4 +13,4 @@ export const routeControl = new L.Routing.Control({
   fitSelectedRoutes: true,
   showAlternatives: false,
   containerClassName: 'display-none',
-});
+};
