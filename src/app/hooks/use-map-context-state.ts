@@ -77,8 +77,6 @@ const useMapContextState: () => MapContextProps = () => {
     const index = parseInt(
       (eventHandler?.originalEvent.target as HTMLInputElement).alt
     );
-    // console.log(eventHandler?.originalEvent.target.);
-    console.log((eventHandler?.originalEvent.target as HTMLInputElement).alt);
     handleSpliceWaypoints(index, 1);
     handleContextMenuClose();
   };
