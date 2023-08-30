@@ -1,9 +1,16 @@
 import { useMapContext } from '@contexts/map-context';
 import ContextMenuItem from './context-menu-item';
+import { actions } from '@components/map/actions';
 
 export const Menu = () => {
-  const { isContextMenuOpen, containerPoint, handleAddFrom, handleAddTo } =
-    useMapContext();
+  const {
+    isContextMenuOpen,
+    containerPoint,
+    action,
+    handleAddFrom,
+    handleAddTo,
+    handleRemove,
+  } = useMapContext();
 
   return (
     <>
@@ -23,11 +30,20 @@ export const Menu = () => {
           }}
         >
           <ul>
-            <ContextMenuItem
-              name='Directions from here'
-              handler={handleAddFrom}
-            />
-            <ContextMenuItem name='Directions to here' handler={handleAddTo} />
+            {action === actions.marker ? (
+              <ContextMenuItem name='Remove Marker' handler={handleRemove} />
+            ) : (
+              <>
+                <ContextMenuItem
+                  name='Directions from here'
+                  handler={handleAddFrom}
+                />
+                <ContextMenuItem
+                  name='Directions to here'
+                  handler={handleAddTo}
+                />
+              </>
+            )}
           </ul>
         </div>
       )}
