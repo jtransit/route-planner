@@ -1,4 +1,5 @@
 import 'leaflet-routing-machine';
+import L from 'leaflet';
 
 export const routingControlOptions = {
   waypoints: [],
@@ -13,4 +14,15 @@ export const routingControlOptions = {
   fitSelectedRoutes: true,
   showAlternatives: false,
   containerClassName: 'display-none',
+  createMarker: (
+    waypointIndex: number,
+    waypoint: L.Routing.Waypoint,
+    numberOfWaypoints: number
+  ) => {
+    return new L.Marker(waypoint.latLng, {
+      alt: `${waypointIndex}`,
+      title: 'Marker',
+      draggable: true,
+    });
+  },
 };

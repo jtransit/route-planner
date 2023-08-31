@@ -20,6 +20,10 @@ const useMapContextState: () => MapContextProps = () => {
     defaultMapContext.containerPoint
   );
 
+  const [eventHandler, setEventHandler] = useState<
+    L.LeafletMouseEvent | undefined
+  >();
+
   const [latLng, setLatLng] = useState<L.LatLng>(defaultMapContext.latLng);
 
   const from = useMemo(() => {
@@ -42,6 +46,7 @@ const useMapContextState: () => MapContextProps = () => {
 
   const handleContextMenuOpen = (e: L.LeafletMouseEvent) => {
     setIsContextMenuOpen(true);
+    setEventHandler(e);
     handleContainerPoint(e.containerPoint);
     handleLatLng(e.latlng);
   };
@@ -68,6 +73,16 @@ const useMapContextState: () => MapContextProps = () => {
     handleContextMenuClose();
   };
 
+  const handleRemove = () => {
+    const index = parseInt(
+      (eventHandler?.originalEvent.target as HTMLInputElement).alt
+    );
+    // console.log(eventHandler?.originalEvent.target.);
+    console.log((eventHandler?.originalEvent.target as HTMLInputElement).alt);
+    handleSpliceWaypoints(index, 1);
+    handleContextMenuClose();
+  };
+
   useEffect(() => {
     routingControl.addTo(map);
   }, []);
@@ -86,6 +101,7 @@ const useMapContextState: () => MapContextProps = () => {
     handleContextMenuClose,
     handleAddFrom,
     handleAddTo,
+    handleRemove,
   };
 };
 

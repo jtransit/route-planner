@@ -11,7 +11,7 @@ export const Events = () => {
     useMapContext();
 
   const isMarker = (e: L.LeafletMouseEvent) => {
-    return (e.originalEvent.target as HTMLInputElement).alt === MARKER;
+    return (e.originalEvent.target as HTMLInputElement).title === MARKER;
   };
 
   const isContextMenu = (e: L.LeafletMouseEvent) => {
