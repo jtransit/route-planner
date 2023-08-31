@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
-import '@components/assets/maps.css';
+import '@assets/maps.css';
 import { MapContextProvider } from '@contexts/map-context';
 import { Events } from '@components/map/events';
 import { Menu } from '@components/menu/context-menu';
