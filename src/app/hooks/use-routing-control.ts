@@ -1,7 +1,34 @@
 import { useMemo, useState } from 'react';
 import L from 'leaflet';
+import 'leaflet-routing-machine';
 
 import { routingControlOptions } from '@config/routing-control';
+
+const options = {
+  waypoints: [],
+  lineOptions: {
+    styles: [{ color: '#0ea5e9', weight: 5 }],
+    extendToWaypoints: true,
+    missingRouteTolerance: 0,
+  },
+  show: false,
+  addWaypoints: true,
+  routeWhileDragging: true,
+  fitSelectedRoutes: true,
+  showAlternatives: false,
+  containerClassName: 'display-none',
+  createMarker: (
+    waypointIndex: number,
+    waypoint: L.Routing.Waypoint,
+    numberOfWaypoints: number
+  ) => {
+    return new L.Marker(waypoint.latLng, {
+      alt: `${waypointIndex}`,
+      title: 'Marker',
+      draggable: true,
+    });
+  },
+};
 
 const WAYPOINT_CHANGED_EVENT = 'waypointschanged';
 
@@ -16,7 +43,7 @@ const useRoutingControl = () => {
   };
 
   const routingControl = useMemo(() => {
-    return new L.Routing.Control(routingControlOptions).on(
+    return new L.Routing.Control(options).on(
       WAYPOINT_CHANGED_EVENT,
       handleWaypointsChanged
     );
