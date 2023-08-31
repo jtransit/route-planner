@@ -3,10 +3,12 @@ import L from 'leaflet';
 
 import { useMapContext } from '@contexts/map-context';
 import { actions } from '@components/map/actions';
+import { useAppContext } from '@contexts/app-context';
 
 const MARKER = 'Marker';
 
 export const Events = () => {
+  const { handleShowDrawer } = useAppContext();
   const { handleContextMenuOpen, handleContextMenuClose, handleAction } =
     useMapContext();
 
@@ -29,6 +31,7 @@ export const Events = () => {
 
   useMapEvents({
     click: (e) => {
+      handleShowDrawer(false);
       isContextMenu(e) && handleReset();
       if (isMarker(e)) {
         handleAction(actions.marker);
