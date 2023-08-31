@@ -1,5 +1,3 @@
-import { useMapContext } from '@contexts/map-context';
-
 const ContextMenuItem = ({
   name,
   handler,
@@ -8,11 +6,11 @@ const ContextMenuItem = ({
   handler: () => void;
 }) => {
   return (
-    <li className='hover:bg-gray-200 p-1'>
+    <li className='hover:bg-gray-200 cursor-pointer'>
       <a
-        id={`context-menu-${name}`}
+        className='block w-full h-full p-1'
+        key={`context-menu-${name}`}
         onClick={handler}
-        style={{ cursor: 'pointer' }}
       >
         {name}
       </a>
