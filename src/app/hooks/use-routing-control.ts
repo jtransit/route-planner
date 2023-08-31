@@ -17,17 +17,17 @@ const options = {
   fitSelectedRoutes: true,
   showAlternatives: false,
   containerClassName: 'display-none',
-  createMarker: (
-    waypointIndex: number,
-    waypoint: L.Routing.Waypoint,
-    numberOfWaypoints: number
-  ) => {
-    return new L.Marker(waypoint.latLng, {
-      alt: `${waypointIndex}`,
-      title: 'Marker',
-      draggable: true,
-    });
-  },
+  // createMarker: (
+  //   waypointIndex: number,
+  //   waypoint: L.Routing.Waypoint,
+  //   numberOfWaypoints: number
+  // ) => {
+  //   return new L.Marker(waypoint.latLng, {
+  //     alt: `${waypointIndex}`,
+  //     title: 'Marker',
+  //     draggable: true,
+  //   });
+  // },
 };
 
 const WAYPOINT_CHANGED_EVENT = 'waypointschanged';
