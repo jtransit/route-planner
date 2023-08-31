@@ -1,3 +1,4 @@
+'useClient';
 import 'leaflet-routing-machine';
 import L from 'leaflet';
 
