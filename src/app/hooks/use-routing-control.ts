@@ -1,34 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import L from 'leaflet';
-import 'leaflet-routing-machine';
 
 import { routingControlOptions } from '@config/routing-control';
-
-const options = {
-  waypoints: [],
-  lineOptions: {
-    styles: [{ color: '#0ea5e9', weight: 5 }],
-    extendToWaypoints: true,
-    missingRouteTolerance: 0,
-  },
-  show: false,
-  addWaypoints: true,
-  routeWhileDragging: true,
-  fitSelectedRoutes: true,
-  showAlternatives: false,
-  containerClassName: 'display-none',
-  // createMarker: (
-  //   waypointIndex: number,
-  //   waypoint: L.Routing.Waypoint,
-  //   numberOfWaypoints: number
-  // ) => {
-  //   return new L.Marker(waypoint.latLng, {
-  //     alt: `${waypointIndex}`,
-  //     title: 'Marker',
-  //     draggable: true,
-  //   });
-  // },
-};
 
 const WAYPOINT_CHANGED_EVENT = 'waypointschanged';
 
@@ -42,12 +15,9 @@ const useRoutingControl = () => {
     setWaypoints(e.waypoints);
   };
 
-  const routingControl = useMemo(() => {
-    return new L.Routing.Control(options).on(
-      WAYPOINT_CHANGED_EVENT,
-      handleWaypointsChanged
-    );
-  }, []);
+  const [routingControl, setRoutingControl] = useState<
+    L.Routing.Control | undefined
+  >();
 
   const handleSpliceWaypoints = (
     index: number,
@@ -61,8 +31,17 @@ const useRoutingControl = () => {
           })
         : (wayPoints as L.Routing.Waypoint[]);
 
-    routingControl.spliceWaypoints(index, waypointsToRemove, ..._wayPoints);
+    routingControl?.spliceWaypoints(index, waypointsToRemove, ..._wayPoints);
   };
+
+  useEffect(() => {
+    setRoutingControl(
+      new L.Routing.Control(routingControlOptions).on(
+        WAYPOINT_CHANGED_EVENT,
+        handleWaypointsChanged
+      )
+    );
+  }, []);
 
   return {
     routingControl,

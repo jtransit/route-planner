@@ -82,8 +82,8 @@ const useMapContextState: () => MapContextProps = () => {
   };
 
   useEffect(() => {
-    routingControl.addTo(map);
-  }, []);
+    routingControl?.addTo(map);
+  }, [routingControl]);
 
   return {
     isLoading,

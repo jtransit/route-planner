@@ -1,4 +1,4 @@
-'useClient';
+'use Client';
 import 'leaflet-routing-machine';
 import L from 'leaflet';
 
