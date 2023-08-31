@@ -15,6 +15,7 @@ export interface MapContextProps {
   handleContextMenuClose: () => void;
   handleAddFrom: () => void;
   handleAddTo: () => void;
+  handleRemove: () => void;
 }
 
 export const defaultMapContext: MapContextProps = {
@@ -30,6 +31,7 @@ export const defaultMapContext: MapContextProps = {
   handleContextMenuClose: () => {},
   handleAddFrom: () => {},
   handleAddTo: () => {},
+  handleRemove: () => {},
 };
 
 export interface MapContextProviderProps {
