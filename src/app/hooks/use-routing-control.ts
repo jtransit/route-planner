@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import L from 'leaflet';
 
 import { routingControlOptions } from '@config/routing-control';
@@ -15,12 +15,12 @@ const useRoutingControl = () => {
     setWaypoints(e.waypoints);
   };
 
-  const [routingControl] = useState<L.Routing.Control>(
-    new L.Routing.Control(routingControlOptions).on(
+  const routingControl = useMemo(() => {
+    return new L.Routing.Control(routingControlOptions).on(
       WAYPOINT_CHANGED_EVENT,
       handleWaypointsChanged
-    )
-  );
+    );
+  }, []);
 
   const handleSpliceWaypoints = (
     index: number,
