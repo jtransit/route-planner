@@ -6,7 +6,7 @@ const styles = {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
-      gap: '0.8rem',
+      gap: '0.5rem',
       zIndex: 400,
       width: 'auto',
       height: 'auto',
@@ -18,7 +18,11 @@ const styles = {
       padding: '0.5rem',
     },
     inputWrapper: { display: 'flex', alignItems: 'center', gap: '1rem' },
-    moreWrapper: { width: '18px', display: 'flex', justifyContent: 'center' },
+    origin: { fill: '#2196F3' },
+    destination: { fill: '#F44336' },
+    moreWrapper: { width: '24px', display: 'flex', justifyContent: 'center' },
+    moreIcon: { fill: '#767676', fontSize: '1.2rem' },
+    swapIcon: { fill: '#767676', fontSize: '2rem' },
     input: {
       width: '20rem',
       '&::before': {

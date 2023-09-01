@@ -1,10 +1,10 @@
 'use client';
 import { Box } from '@mui/material';
+import CottageOutlinedIcon from '@mui/icons-material/CottageOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 
 import { useAppContext } from '@contexts/app-context';
 import AppIcon from '@assets/icons/app';
-import HomeIcon from '@assets/icons/home';
-import SettingsIcon from '@assets/icons/settings';
 import styles from './styles';
 
 const Drawer = () => {
@@ -24,11 +24,11 @@ const Drawer = () => {
         <Box sx={styles.drawer.items}>
           <Box sx={styles.drawer.item}>
             <Box sx={styles.drawer.itemIconWrapper}>
-              <HomeIcon />
+              <CottageOutlinedIcon />
             </Box>
           </Box>
           <Box sx={styles.drawer.item}>
-            <SettingsIcon />
+            <SettingsOutlinedIcon />
           </Box>
         </Box>
       </Box>

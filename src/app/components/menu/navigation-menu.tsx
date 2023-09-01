@@ -1,10 +1,9 @@
 import { Box, Input, Divider } from '@mui/material';
+import TripOriginIcon from '@mui/icons-material/TripOrigin';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 
 import { useMapContext } from '@contexts/map-context';
-import BlueCircle from '@assets/icons/blue-circle';
-import RedCircle from '@assets/icons/red-circle';
-import Swap from '@assets/icons/swap';
-import More from '@assets/icons/more';
 import styles from './styles';
 
 const NavigationMenu = () => {
@@ -17,22 +16,22 @@ const NavigationMenu = () => {
     <Box sx={styles.nav.menu}>
       <Box>
         <Box sx={styles.nav.inputWrapper}>
-          <BlueCircle />
+          <TripOriginIcon sx={styles.nav.origin} />
           <Input sx={styles.nav.input} placeholder='Origin' value={_from} />
         </Box>
         <Box sx={styles.nav.dividerWrapper}>
           <Box sx={styles.nav.moreWrapper}>
-            <More />
+            <MoreVertIcon sx={styles.nav.moreIcon} />
           </Box>
           <Divider sx={styles.nav.divider} />
         </Box>
         <Box sx={styles.nav.inputWrapper}>
-          <RedCircle />
+          <TripOriginIcon sx={styles.nav.destination} />
           <Input sx={styles.nav.input} placeholder='Destination' value={_to} />
         </Box>
       </Box>
       <Box>
-        <Swap />
+        <SwapVertIcon sx={styles.nav.swapIcon} />
       </Box>
     </Box>
   );
