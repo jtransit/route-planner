@@ -16,23 +16,14 @@ const Drawer = () => {
         sx={[showDrawer ? styles.drawer.open : styles.drawer.close]}
         onClick={() => handleShowDrawer(true)}
       >
-        <Box sx={styles.drawer.iconWrapper}>
+        <Box sx={styles.drawer.appIconWrapper}>
           <Box sx={styles.drawer.icon}>
             <AppIcon />
           </Box>
         </Box>
         <Box sx={styles.drawer.items}>
           <Box sx={styles.drawer.item}>
-            <Box
-              sx={{
-                // background: 'gray',
-                flexShrink: 0,
-                padding: '0.8rem',
-                boxShadow: '2px 2px 4px 0px rgba(0, 0, 0, 0.25) inset',
-                borderRadius: '0.3125rem',
-                background: '#F0F0F0',
-              }}
-            >
+            <Box sx={styles.drawer.itemIconWrapper}>
               <HomeIcon />
             </Box>
           </Box>

@@ -1,16 +1,38 @@
 const styles = {
-  navMenu: {
-    boxShadow: 2,
-    position: 'absolute',
-    zIndex: 400,
-    width: '25rem',
-    height: 'auto',
-    border: '1px solid transparent',
-    borderRadius: '5px',
-    background: 'white',
-    top: '1.5rem',
-    left: '5.5rem',
-    padding: '0.5rem',
+  nav: {
+    menu: {
+      boxShadow: 2,
+      position: 'absolute',
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: '0.8rem',
+      zIndex: 400,
+      width: 'auto',
+      height: 'auto',
+      border: '1px solid transparent',
+      borderRadius: '5px',
+      background: 'white',
+      top: '1.5rem',
+      left: '5.5rem',
+      padding: '0.5rem',
+    },
+    inputWrapper: { display: 'flex', alignItems: 'center', gap: '1rem' },
+    moreWrapper: { width: '18px', display: 'flex', justifyContent: 'center' },
+    input: {
+      width: '20rem',
+      '&::before': {
+        border: '0px',
+      },
+    },
+    divider: {
+      width: '20rem',
+    },
+    dividerWrapper: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '1rem',
+    },
   },
   drawer: {
     wrapper: {
@@ -28,7 +50,7 @@ const styles = {
       width: '4rem',
     },
     icon: { paddingTop: '1.5rem' },
-    iconWrapper: {
+    appIconWrapper: {
       display: 'flex',
       justifyContent: 'center',
       background: '#FE8A64',
@@ -44,6 +66,13 @@ const styles = {
       display: 'flex',
       width: '100%',
       justifyContent: 'center',
+    },
+    itemIconWrapper: {
+      flexShrink: 0,
+      padding: '0.8rem',
+      boxShadow: '2px 2px 4px 0px rgba(0, 0, 0, 0.25) inset',
+      borderRadius: '0.3125rem',
+      background: '#F0F0F0',
     },
   },
 };

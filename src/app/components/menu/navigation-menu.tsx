@@ -1,9 +1,12 @@
-import { Box } from '@mui/material';
+import { Box, Input, Divider } from '@mui/material';
 
 import { useMapContext } from '@contexts/map-context';
+import BlueCircle from '@assets/icons/blue-circle';
+import RedCircle from '@assets/icons/red-circle';
+import Swap from '@assets/icons/swap';
+import More from '@assets/icons/more';
 import styles from './styles';
 
-// WIP Navigation Menu
 const NavigationMenu = () => {
   const { from, to } = useMapContext();
 
@@ -11,9 +14,26 @@ const NavigationMenu = () => {
   const _to = to?.toString() ?? '';
 
   return (
-    <Box sx={styles.navMenu}>
-      <div className='py-1'>Where are you? {_from}</div>
-      <div className='py-1'>Where do you want to go? {_to}</div>
+    <Box sx={styles.nav.menu}>
+      <Box>
+        <Box sx={styles.nav.inputWrapper}>
+          <BlueCircle />
+          <Input sx={styles.nav.input} placeholder='Origin' value={_from} />
+        </Box>
+        <Box sx={styles.nav.dividerWrapper}>
+          <Box sx={styles.nav.moreWrapper}>
+            <More />
+          </Box>
+          <Divider sx={styles.nav.divider} />
+        </Box>
+        <Box sx={styles.nav.inputWrapper}>
+          <RedCircle />
+          <Input sx={styles.nav.input} placeholder='Destination' value={_to} />
+        </Box>
+      </Box>
+      <Box>
+        <Swap />
+      </Box>
     </Box>
   );
 };
