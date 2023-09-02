@@ -2,22 +2,20 @@ import { MapAction, MapState } from '@app-types/map-context';
 import { actions } from './actions';
 
 export const mapReducer = (state: MapState, action: MapAction) => {
-  let newState: MapState = state;
+  let newState;
 
   switch (action.type) {
     case actions.handleLoading: {
-      const l = action.value as boolean;
       newState = {
         ...state,
-        isLoading: l,
+        isLoading: action.value as boolean,
       };
       break;
     }
     case actions.handleAction: {
-      const a = action.value as string | undefined;
       newState = {
         ...state,
-        action: a,
+        action: action.value as string | undefined,
       };
       break;
     }
