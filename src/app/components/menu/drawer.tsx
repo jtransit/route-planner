@@ -9,6 +9,35 @@ import _styles from './styles';
 
 const styles = _styles.drawer;
 
+const DrawerItem = ({
+  icon,
+  label,
+  isSelected,
+}: {
+  icon: JSX.Element;
+  label: string;
+  isSelected: boolean;
+}) => {
+  const { showDrawer } = useAppContext();
+
+  return (
+    <Box sx={styles.item}>
+      <Box
+        sx={[
+          isSelected && styles.itemIconWrapper,
+          !isSelected && styles.itemIconWrapperNotSelected,
+          showDrawer && styles.show,
+        ]}
+      >
+        <Box sx={[showDrawer && styles.itemShow]}>
+          {icon}
+          {showDrawer && <Typography>{label}</Typography>}
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
 const Drawer = () => {
   const { showDrawer, handleShowDrawer } = useAppContext();
 
@@ -24,17 +53,16 @@ const Drawer = () => {
           </Box>
         </Box>
         <Box sx={styles.items}>
-          <Box sx={styles.item}>
-            <Box sx={[styles.itemIconWrapper, showDrawer && styles.show]}>
-              <Box sx={[showDrawer && styles.itemShow]}>
-                <CottageOutlinedIcon />
-                {showDrawer && <Typography>Home</Typography>}
-              </Box>
-            </Box>
-          </Box>
-          <Box sx={styles.item}>
-            <SettingsOutlinedIcon />
-          </Box>
+          <DrawerItem
+            icon={<CottageOutlinedIcon />}
+            label={'Home'}
+            isSelected={true}
+          />
+          <DrawerItem
+            icon={<SettingsOutlinedIcon />}
+            label={'Settings'}
+            isSelected={false}
+          />
         </Box>
       </Box>
     </Box>

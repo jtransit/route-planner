@@ -90,6 +90,11 @@ const styles = {
       borderRadius: '0.3125rem',
       background: '#F0F0F0',
     },
+    itemIconWrapperNotSelected: {
+      flexShrink: 0,
+      padding: '0.8rem',
+      borderRadius: '0.3125rem',
+    },
   },
 };
 
