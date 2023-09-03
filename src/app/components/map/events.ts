@@ -7,6 +7,7 @@ import { useAppContext } from '@contexts/app-context';
 
 const MARKER = 'Marker';
 const MAP = 'leaflet';
+const STRING = 'string';
 
 export const Events = () => {
   const { handleShowDrawer } = useAppContext();
@@ -15,7 +16,7 @@ export const Events = () => {
 
   const isMap = (e: L.LeafletMouseEvent) => {
     const className = (e.originalEvent.target as HTMLInputElement).className;
-    return typeof className === 'string' ? className.includes(MAP) : false;
+    return typeof className === STRING ? className.includes(MAP) : false;
   };
 
   const isMarker = (e: L.LeafletMouseEvent) => {
