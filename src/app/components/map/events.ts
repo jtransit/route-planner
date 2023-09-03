@@ -14,7 +14,8 @@ export const Events = () => {
     useMapContext();
 
   const isMap = (e: L.LeafletMouseEvent) => {
-    return (e.originalEvent.target as HTMLInputElement).className.includes(MAP);
+    const className = (e.originalEvent.target as HTMLInputElement).className;
+    return typeof className === 'string' ? className.includes(MAP) : false;
   };
 
   const isMarker = (e: L.LeafletMouseEvent) => {
