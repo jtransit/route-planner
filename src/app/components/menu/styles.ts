@@ -17,6 +17,7 @@ const styles = {
       left: '5.5rem',
       padding: '0.5rem',
     },
+    drawerOpen: { left: '15rem' },
     inputWrapper: { display: 'flex', alignItems: 'center', gap: '1rem' },
     origin: { fill: '#2196F3' },
     destination: { fill: '#F44336' },
@@ -53,7 +54,18 @@ const styles = {
     close: {
       width: '4rem',
     },
-    icon: { paddingTop: '1.5rem' },
+    show: {
+      width: '92%',
+      marginLeft: '6%',
+      marginRight: '6%',
+    },
+    itemShow: { display: 'flex', gap: '1rem', width: '100%' },
+    icon: {
+      paddingTop: '1.5rem',
+      '&:hover': {
+        cursor: 'pointer',
+      },
+    },
     appIconWrapper: {
       display: 'flex',
       justifyContent: 'center',
