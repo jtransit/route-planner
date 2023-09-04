@@ -17,6 +17,7 @@ const styles = {
       left: '5.5rem',
       padding: '0.5rem',
     },
+    drawerOpen: { left: '15rem' },
     inputWrapper: { display: 'flex', alignItems: 'center', gap: '1rem' },
     origin: { fill: '#2196F3' },
     destination: { fill: '#F44336' },
@@ -53,7 +54,18 @@ const styles = {
     close: {
       width: '4rem',
     },
-    icon: { paddingTop: '1.5rem' },
+    show: {
+      width: '92%',
+      marginLeft: '6%',
+      marginRight: '6%',
+    },
+    itemShow: { display: 'flex', gap: '1rem', width: '100%' },
+    icon: {
+      paddingTop: '1.5rem',
+      '&:hover': {
+        cursor: 'pointer',
+      },
+    },
     appIconWrapper: {
       display: 'flex',
       justifyContent: 'center',
@@ -77,6 +89,11 @@ const styles = {
       boxShadow: '2px 2px 4px 0px rgba(0, 0, 0, 0.25) inset',
       borderRadius: '0.3125rem',
       background: '#F0F0F0',
+    },
+    itemIconWrapperNotSelected: {
+      flexShrink: 0,
+      padding: '0.8rem',
+      borderRadius: '0.3125rem',
     },
   },
 };
