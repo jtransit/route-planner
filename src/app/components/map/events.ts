@@ -6,7 +6,7 @@ import { actions } from '@components/map/actions';
 import { useAppContext } from '@contexts/app-context';
 
 const MARKER = 'Marker';
-const MAP = 'leaflet';
+const LEAFLET = 'leaflet';
 const STRING = 'string';
 
 export const Events = () => {
@@ -16,7 +16,7 @@ export const Events = () => {
 
   const isMap = (e: L.LeafletMouseEvent) => {
     const className = (e.originalEvent.target as HTMLInputElement).className;
-    return typeof className === STRING ? className.includes(MAP) : false;
+    return typeof className === STRING && className.includes(LEAFLET);
   };
 
   const isMarker = (e: L.LeafletMouseEvent) => {
