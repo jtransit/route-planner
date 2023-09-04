@@ -2,6 +2,7 @@
 import { Box } from '@mui/material';
 import CottageOutlinedIcon from '@mui/icons-material/CottageOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import { useSpring, animated } from '@react-spring/web';
 
 import { useAppContext } from '@contexts/app-context';
 import AppIcon from '@assets/icons/app';
@@ -9,13 +10,15 @@ import styles from './styles';
 
 const Drawer = () => {
   const { showDrawer, handleShowDrawer } = useAppContext();
+  const props = useSpring({
+    width: showDrawer ? '14rem' : '4rem',
+  });
+
+  const AnimatedDrawer = animated(Box);
 
   return (
     <Box sx={styles.drawer.wrapper}>
-      <Box
-        sx={[showDrawer ? styles.drawer.open : styles.drawer.close]}
-        onClick={() => handleShowDrawer(true)}
-      >
+      <AnimatedDrawer style={props} onClick={() => handleShowDrawer(true)}>
         <Box sx={styles.drawer.appIconWrapper}>
           <Box sx={styles.drawer.icon}>
             <AppIcon />
@@ -31,7 +34,7 @@ const Drawer = () => {
             <SettingsOutlinedIcon />
           </Box>
         </Box>
-      </Box>
+      </AnimatedDrawer>
     </Box>
   );
 };
