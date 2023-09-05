@@ -42,7 +42,7 @@ const DrawerItem = ({
 const Drawer = () => {
   const { showDrawer, handleShowDrawer } = useAppContext();
   const props = useSpring({
-    width: showDrawer ? styles.open : styles.close,
+    width: showDrawer ? styles.open.width : styles.close.width,
   });
 
   const AnimatedDrawer = animated(Box);
