@@ -2,6 +2,7 @@ import { Box, Input, Divider } from '@mui/material';
 import TripOriginIcon from '@mui/icons-material/TripOrigin';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
+import { useSpring, animated } from '@react-spring/web';
 
 import { useAppContext } from '@contexts/app-context';
 import { useMapContext } from '@contexts/map-context';
@@ -12,12 +13,17 @@ const styles = _styles.nav;
 const NavigationMenu = () => {
   const { showDrawer } = useAppContext();
   const { from, to } = useMapContext();
+  const props = useSpring({
+    left: showDrawer ? styles.drawerOpen.left : styles.drawerClose.left,
+  });
 
   const _from = from?.toString() ?? '';
   const _to = to?.toString() ?? '';
 
+  const AnimatedMenu = animated(Box);
+
   return (
-    <Box sx={[styles.menu, showDrawer && styles.drawerOpen]}>
+    <AnimatedMenu sx={[styles.menu]} style={props}>
       <Box>
         <Box sx={styles.inputWrapper}>
           <TripOriginIcon sx={styles.origin} />
@@ -37,7 +43,7 @@ const NavigationMenu = () => {
       <Box>
         <SwapVertIcon sx={styles.swapIcon} />
       </Box>
-    </Box>
+    </AnimatedMenu>
   );
 };
 

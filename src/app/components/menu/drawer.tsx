@@ -2,6 +2,7 @@
 import { Box, Typography } from '@mui/material';
 import CottageOutlinedIcon from '@mui/icons-material/CottageOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import { useSpring, animated } from '@react-spring/web';
 
 import { useAppContext } from '@contexts/app-context';
 import AppIcon from '@assets/icons/app';
@@ -40,11 +41,16 @@ const DrawerItem = ({
 
 const Drawer = () => {
   const { showDrawer, handleShowDrawer } = useAppContext();
+  const props = useSpring({
+    width: showDrawer ? styles.open.width : styles.close.width,
+  });
+
+  const AnimatedDrawer = animated(Box);
 
   return (
     <Box sx={styles.wrapper}>
-      <Box
-        sx={[showDrawer ? styles.open : styles.close]}
+      <AnimatedDrawer
+        style={props}
         onClick={() => handleShowDrawer(!showDrawer)}
       >
         <Box sx={styles.appIconWrapper}>
@@ -64,7 +70,7 @@ const Drawer = () => {
             isSelected={false}
           />
         </Box>
-      </Box>
+      </AnimatedDrawer>
     </Box>
   );
 };
