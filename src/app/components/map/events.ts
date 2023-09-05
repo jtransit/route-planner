@@ -6,11 +6,18 @@ import { actions } from '@components/map/actions';
 import { useAppContext } from '@contexts/app-context';
 
 const MARKER = 'Marker';
+const LEAFLET = 'leaflet';
+const STRING = 'string';
 
 export const Events = () => {
   const { handleShowDrawer } = useAppContext();
   const { handleContextMenuOpen, handleContextMenuClose, handleAction } =
     useMapContext();
+
+  const isMap = (e: L.LeafletMouseEvent) => {
+    const className = (e.originalEvent.target as HTMLInputElement).className;
+    return typeof className === STRING && className.includes(LEAFLET);
+  };
 
   const isMarker = (e: L.LeafletMouseEvent) => {
     return (e.originalEvent.target as HTMLInputElement).title === MARKER;
@@ -18,10 +25,6 @@ export const Events = () => {
 
   const isContextMenu = (e: L.LeafletMouseEvent) => {
     return (e.originalEvent.target as HTMLInputElement).id === '';
-  };
-
-  const handleContextMenu = (e: L.LeafletMouseEvent) => {
-    handleContextMenuOpen(e);
   };
 
   const handleReset = () => {
@@ -35,7 +38,7 @@ export const Events = () => {
       isContextMenu(e) && handleReset();
       if (isMarker(e)) {
         handleAction(actions.marker);
-        handleContextMenu(e);
+        handleContextMenuOpen(e);
       }
     },
     zoom: () => {
@@ -45,9 +48,13 @@ export const Events = () => {
       handleReset();
     },
     contextmenu: (e) => {
-      const action = isMarker(e) ? actions.marker : undefined;
-      handleAction(action);
-      handleContextMenu(e);
+      if (isMap(e)) {
+        const action = isMarker(e) ? actions.marker : undefined;
+        handleAction(action);
+        handleContextMenuOpen(e);
+      } else {
+        handleContextMenuClose();
+      }
     },
   });
 

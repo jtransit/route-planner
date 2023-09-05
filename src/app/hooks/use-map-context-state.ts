@@ -1,30 +1,19 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useReducer } from 'react';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
 
 import useRoutingControl from '@hooks/use-routing-control';
-import { MapContextProps, defaultMapContext } from '@app-types/map-context';
+import { MapContextProps, defaultMapState } from '@app-types/map-context';
+import { mapReducer } from './map-reducer';
+import { actions } from './actions';
 
 const useMapContextState: () => MapContextProps = () => {
   const map = useMap();
+
   const { routingControl, waypoints, handleSpliceWaypoints } =
     useRoutingControl();
 
-  const [isLoading, setIsLoading] = useState(defaultMapContext.isLoading);
-
-  const [isContextMenuOpen, setIsContextMenuOpen] = useState(
-    defaultMapContext.isContextMenuOpen
-  );
-
-  const [containerPoint, setContainerPoint] = useState<L.Point>(
-    defaultMapContext.containerPoint
-  );
-
-  const [eventHandler, setEventHandler] = useState<
-    L.LeafletMouseEvent | undefined
-  >();
-
-  const [latLng, setLatLng] = useState<L.LatLng>(defaultMapContext.latLng);
+  const [state, dispatch] = useReducer(mapReducer, defaultMapState);
 
   const from = useMemo(() => {
     return waypoints[0].latLng;
@@ -34,48 +23,35 @@ const useMapContextState: () => MapContextProps = () => {
     return waypoints[waypoints.length - 1].latLng;
   }, [waypoints]);
 
-  const [action, setAction] = useState<string>();
-
   const handleLoading = (v: boolean) => {
-    setIsLoading(v);
+    dispatch({ type: actions.handleLoading, value: v });
   };
 
   const handleAction = (v?: string) => {
-    setAction(v);
+    dispatch({ type: actions.handleAction, value: v });
   };
 
   const handleContextMenuOpen = (e: L.LeafletMouseEvent) => {
-    setIsContextMenuOpen(true);
-    setEventHandler(e);
-    handleContainerPoint(e.containerPoint);
-    handleLatLng(e.latlng);
+    dispatch({ type: actions.handleContextMenuOpen, value: e });
   };
 
   const handleContextMenuClose = () => {
-    setIsContextMenuOpen(false);
-  };
-
-  const handleContainerPoint = (v: L.Point) => {
-    setContainerPoint(v);
-  };
-
-  const handleLatLng = (v: L.LatLng) => {
-    setLatLng(v);
+    dispatch({ type: actions.handleContextMenuClose });
   };
 
   const handleAddFrom = () => {
-    handleSpliceWaypoints(0, 1, latLng);
+    handleSpliceWaypoints(0, 1, state.latLng);
     handleContextMenuClose();
   };
 
   const handleAddTo = () => {
-    handleSpliceWaypoints(waypoints.length - 1, 1, latLng);
+    handleSpliceWaypoints(waypoints.length - 1, 1, state.latLng);
     handleContextMenuClose();
   };
 
   const handleRemove = () => {
     const index = parseInt(
-      (eventHandler?.originalEvent.target as HTMLInputElement).alt
+      (state.eventHandler?.originalEvent.target as HTMLInputElement).alt
     );
     handleSpliceWaypoints(index, 1);
     handleContextMenuClose();
@@ -86,11 +62,11 @@ const useMapContextState: () => MapContextProps = () => {
   }, [routingControl]);
 
   return {
-    isLoading,
-    isContextMenuOpen,
-    action,
-    containerPoint,
-    latLng,
+    isLoading: state.isLoading,
+    isContextMenuOpen: state.isContextMenuOpen,
+    action: state.action,
+    containerPoint: state.containerPoint,
+    latLng: state.latLng,
     from,
     to,
     handleLoading,

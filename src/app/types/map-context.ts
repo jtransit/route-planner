@@ -37,3 +37,24 @@ export const defaultMapContext: MapContextProps = {
 export interface MapContextProviderProps {
   children: ReactNode;
 }
+
+export interface MapState {
+  isLoading: boolean;
+  action?: string;
+  isContextMenuOpen: boolean;
+  containerPoint: L.Point;
+  eventHandler?: L.LeafletMouseEvent;
+  latLng: L.LatLng;
+}
+
+export interface MapAction {
+  type: string;
+  value?: string | boolean | L.LeafletMouseEvent;
+}
+
+export const defaultMapState: MapState = {
+  isLoading: false,
+  isContextMenuOpen: false,
+  containerPoint: defaultMapContext.containerPoint,
+  latLng: defaultMapContext.latLng,
+};
