@@ -54,12 +54,7 @@ const styles = {
     close: {
       width: '4rem',
     },
-    show: {
-      width: '92%',
-      marginLeft: '6%',
-      marginRight: '6%',
-    },
-    itemShow: { display: 'flex', gap: '1rem', width: '100%' },
+    itemShow: { gap: '1rem', width: '100%' },
     icon: {
       paddingTop: '1.5rem',
       '&:hover': {
@@ -82,6 +77,8 @@ const styles = {
       display: 'flex',
       width: '100%',
       justifyContent: 'center',
+      paddingLeft: '0.3rem',
+      paddingRight: '0.3rem',
     },
     itemIconWrapper: {
       flexShrink: 0,

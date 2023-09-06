@@ -25,12 +25,13 @@ const DrawerItem = ({
     <Box sx={styles.item}>
       <Box
         sx={[
+          { width: '100%' },
           isSelected && styles.itemIconWrapper,
           !isSelected && styles.itemIconWrapperNotSelected,
-          showDrawer && styles.show,
+          // showDrawer && styles.show,
         ]}
       >
-        <Box sx={[showDrawer && styles.itemShow]}>
+        <Box sx={[{ display: 'flex' }, showDrawer && styles.itemShow]}>
           {icon}
           {showDrawer && <Typography>{label}</Typography>}
         </Box>
