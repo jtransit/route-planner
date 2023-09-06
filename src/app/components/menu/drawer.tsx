@@ -28,7 +28,6 @@ const DrawerItem = ({
           { width: '100%' },
           isSelected && styles.itemIconWrapper,
           !isSelected && styles.itemIconWrapperNotSelected,
-          // showDrawer && styles.show,
         ]}
       >
         <Box sx={[{ display: 'flex' }, showDrawer && styles.itemShow]}>
