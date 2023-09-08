@@ -44,3 +44,5 @@ export const mapReducer = (state: MapState, action: MapAction) => {
 
   return newState;
 };
+
+export default mapReducer;
