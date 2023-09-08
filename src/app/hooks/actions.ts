@@ -3,4 +3,5 @@ export const actions = {
   handleContextMenuClose: 'handleContextMenuClose',
   handleLoading: 'handleLoading',
   handleAction: 'handleAction',
+  handleShowDrawer: 'handleShowDrawer',
 };

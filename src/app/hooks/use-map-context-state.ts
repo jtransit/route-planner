@@ -4,8 +4,11 @@ import L from 'leaflet';
 
 import useRoutingControl from '@hooks/use-routing-control';
 import { MapContextProps, defaultMapState } from '@app-types/map-context';
-import { mapReducer } from './map-reducer';
+import mapReducer from './map-reducer';
 import { actions } from './actions';
+
+const FIRST_INDEX = 0;
+const ITEMS_TO_REMOVE = 1;
 
 const useMapContextState: () => MapContextProps = () => {
   const map = useMap();
@@ -15,8 +18,10 @@ const useMapContextState: () => MapContextProps = () => {
 
   const [state, dispatch] = useReducer(mapReducer, defaultMapState);
 
+  const lastWaypointIndex = waypoints.length - 1;
+
   const from = useMemo(() => {
-    return waypoints[0].latLng;
+    return waypoints[FIRST_INDEX].latLng;
   }, [waypoints]);
 
   const to = useMemo(() => {
@@ -40,12 +45,12 @@ const useMapContextState: () => MapContextProps = () => {
   };
 
   const handleAddFrom = () => {
-    handleSpliceWaypoints(0, 1, state.latLng);
+    handleSpliceWaypoints(FIRST_INDEX, ITEMS_TO_REMOVE, state.latLng);
     handleContextMenuClose();
   };
 
   const handleAddTo = () => {
-    handleSpliceWaypoints(waypoints.length - 1, 1, state.latLng);
+    handleSpliceWaypoints(lastWaypointIndex, ITEMS_TO_REMOVE, state.latLng);
     handleContextMenuClose();
   };
 
@@ -53,7 +58,7 @@ const useMapContextState: () => MapContextProps = () => {
     const index = parseInt(
       (state.eventHandler?.originalEvent.target as HTMLInputElement).alt
     );
-    handleSpliceWaypoints(index, 1);
+    handleSpliceWaypoints(index, ITEMS_TO_REMOVE);
     handleContextMenuClose();
   };
 
@@ -61,21 +66,33 @@ const useMapContextState: () => MapContextProps = () => {
     routingControl?.addTo(map);
   }, [routingControl]);
 
-  return {
+  const defaults = {
     isLoading: state.isLoading,
-    isContextMenuOpen: state.isContextMenuOpen,
     action: state.action,
-    containerPoint: state.containerPoint,
-    latLng: state.latLng,
-    from,
-    to,
     handleLoading,
     handleAction,
-    handleContextMenuOpen,
-    handleContextMenuClose,
+  };
+
+  const directions = {
+    from,
+    to,
     handleAddFrom,
     handleAddTo,
     handleRemove,
+  };
+
+  const contextMenu = {
+    isContextMenuOpen: state.isContextMenuOpen,
+    containerPoint: state.containerPoint,
+    latLng: state.latLng,
+    handleContextMenuOpen,
+    handleContextMenuClose,
+  };
+
+  return {
+    ...defaults,
+    ...directions,
+    ...contextMenu,
   };
 };
 

@@ -17,3 +17,18 @@ export const defaultAppContext: AppContextProps = {
 export interface AppContextProviderProps {
   children: ReactNode;
 }
+
+export interface AppState {
+  isLoading: boolean;
+  showDrawer: boolean;
+}
+
+export interface AppAction {
+  type: string;
+  value?: boolean;
+}
+
+export const defaultAppState = {
+  isLoading: false,
+  showDrawer: true,
+};

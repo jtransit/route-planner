@@ -1,22 +1,23 @@
-import { useState } from 'react';
-import { AppContextProps } from '@app-types/app-context';
+import { useReducer } from 'react';
+
+import { AppContextProps, defaultAppState } from '@app-types/app-context';
+import appReducer from './app-reducer';
+import { actions } from './actions';
 
 const useAppContextState: () => AppContextProps = () => {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [showDrawer, setShowDrawer] = useState(false);
+  const [state, dispatch] = useReducer(appReducer, defaultAppState);
 
   const handleLoading = (v: boolean) => {
-    setIsLoading(v);
+    dispatch({ type: actions.handleLoading, value: v });
   };
 
   const handleShowDrawer = (v: boolean) => {
-    setShowDrawer(v);
+    dispatch({ type: actions.handleShowDrawer, value: v });
   };
 
   return {
-    isLoading,
-    showDrawer,
+    isLoading: state.isLoading,
+    showDrawer: state.showDrawer,
     handleLoading,
     handleShowDrawer,
   };
