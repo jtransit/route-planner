@@ -21,6 +21,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
+      "@api/*": ["./src/app/hooks/api/*"],
       "@app/*": ["./src/app/*"],
       "@assets/*": ["./src/app/assets/*"],
       "@app-types/*": ["./src/app/types/*"],
