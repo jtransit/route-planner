@@ -37,6 +37,26 @@ export const mapReducer = (state: MapState, action: MapAction) => {
       };
       break;
     }
+    case actions.handleChangeFrom: {
+      newState = {
+        ...state,
+        from: {
+          ...state.from,
+          address: action.value as string,
+        },
+      };
+      break;
+    }
+    case actions.handleChangeTo: {
+      newState = {
+        ...state,
+        to: {
+          ...state.to,
+          address: action.value as string,
+        },
+      };
+      break;
+    }
     default: {
       throw new Error('Invalid Action');
     }

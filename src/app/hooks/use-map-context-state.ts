@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useReducer } from 'react';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
+import { debounce } from 'lodash';
 
 import useRoutingControl from '@hooks/use-routing-control';
 import { MapContextProps, defaultMapState } from '@app-types/map-context';
 import mapReducer from './map-reducer';
 import { actions } from './actions';
+import useMapService from './services/map-service';
 
 const FIRST_INDEX = 0;
 const ITEMS_TO_REMOVE = 1;
@@ -16,16 +18,22 @@ const useMapContextState: () => MapContextProps = () => {
   const { routingControl, waypoints, handleSpliceWaypoints } =
     useRoutingControl();
 
+  const {
+    isLoading: isLoadingSearch,
+    searchSuggestions,
+    search,
+  } = useMapService();
+
   const [state, dispatch] = useReducer(mapReducer, defaultMapState);
 
   const lastWaypointIndex = waypoints.length - 1;
 
-  const from = useMemo(() => {
-    return waypoints[FIRST_INDEX].latLng;
-  }, [waypoints]);
-
-  const to = useMemo(() => {
-    return waypoints[waypoints.length - 1].latLng;
+  // TODO: reverse lookup search for given string address
+  const waypointLatLng = useMemo(() => {
+    return {
+      from: waypoints[FIRST_INDEX].latLng,
+      to: waypoints[waypoints.length - 1].latLng,
+    };
   }, [waypoints]);
 
   const handleLoading = (v: boolean) => {
@@ -44,14 +52,37 @@ const useMapContextState: () => MapContextProps = () => {
     dispatch({ type: actions.handleContextMenuClose });
   };
 
-  const handleAddFrom = () => {
-    handleSpliceWaypoints(FIRST_INDEX, ITEMS_TO_REMOVE, state.latLng);
-    handleContextMenuClose();
+  const debouncedSearch = useMemo(
+    () => debounce((v: string) => search(v), 1000),
+    []
+  );
+
+  const handleChangeFrom = (address?: string) => {
+    if (address) {
+      dispatch({
+        type: actions.handleChangeFrom,
+        value: address,
+      });
+      debouncedSearch(address);
+    } else {
+      // TODO: reverse lookup search for given string address
+      handleSpliceWaypoints(FIRST_INDEX, ITEMS_TO_REMOVE, state.latLng);
+      handleContextMenuClose();
+    }
   };
 
-  const handleAddTo = () => {
-    handleSpliceWaypoints(lastWaypointIndex, ITEMS_TO_REMOVE, state.latLng);
-    handleContextMenuClose();
+  const handleChangeTo = (address?: string) => {
+    if (address) {
+      dispatch({
+        type: actions.handleChangeTo,
+        value: address,
+      });
+      debouncedSearch(address);
+    } else {
+      // TODO: reverse lookup search for given string address
+      handleSpliceWaypoints(lastWaypointIndex, ITEMS_TO_REMOVE, state.latLng);
+      handleContextMenuClose();
+    }
   };
 
   const handleRemove = () => {
@@ -74,10 +105,12 @@ const useMapContextState: () => MapContextProps = () => {
   };
 
   const directions = {
-    from,
-    to,
-    handleAddFrom,
-    handleAddTo,
+    from: state?.from,
+    to: state?.to,
+    isLoadingSearch,
+    search: searchSuggestions.features,
+    handleChangeFrom,
+    handleChangeTo,
     handleRemove,
   };
 

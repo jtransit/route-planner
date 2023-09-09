@@ -4,4 +4,6 @@ export const actions = {
   handleLoading: 'handleLoading',
   handleAction: 'handleAction',
   handleShowDrawer: 'handleShowDrawer',
+  handleChangeFrom: 'handleChangeFrom',
+  handleChangeTo: 'handleChangeTo',
 };
