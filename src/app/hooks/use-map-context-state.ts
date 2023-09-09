@@ -28,8 +28,8 @@ const useMapContextState: () => MapContextProps = () => {
 
   const lastWaypointIndex = waypoints.length - 1;
 
-  // TODO: reverse lookup search for given string address
   const waypointLatLng = useMemo(() => {
+    // TODO: reverse lookup search for given string address
     return {
       from: waypoints[FIRST_INDEX].latLng,
       to: waypoints[waypoints.length - 1].latLng,
