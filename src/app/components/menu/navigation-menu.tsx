@@ -1,4 +1,11 @@
-import { Box, Input, Divider } from '@mui/material';
+import { useMemo } from 'react';
+import {
+  Box,
+  Divider,
+  Autocomplete,
+  TextField,
+  CircularProgress,
+} from '@mui/material';
 import TripOriginIcon from '@mui/icons-material/TripOrigin';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
@@ -10,15 +17,66 @@ import _styles from './styles';
 
 const styles = _styles.nav;
 
+const AutoCompleteComponent = ({
+  isLoading,
+  options,
+  changeHandler,
+}: {
+  isLoading: boolean;
+  options: {
+    key: number;
+    label: string;
+  }[];
+  changeHandler: (v?: string) => void;
+}) => {
+  return (
+    <Autocomplete
+      options={options}
+      sx={styles.input}
+      onChange={(e) => {
+        changeHandler((e.target as HTMLInputElement).innerHTML);
+      }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          onChange={(e) => changeHandler((e.target as HTMLInputElement).value)}
+          InputProps={{
+            ...params.InputProps,
+            endAdornment: (
+              <>
+                {isLoading ? (
+                  <CircularProgress color='inherit' size={20} />
+                ) : null}
+                {params.InputProps.endAdornment}
+              </>
+            ),
+          }}
+        />
+      )}
+    />
+  );
+};
+
 const NavigationMenu = () => {
   const { showDrawer } = useAppContext();
-  const { from, to } = useMapContext();
+
+  const { isLoadingSearch, search, handleChangeFrom, handleChangeTo } =
+    useMapContext();
+
   const props = useSpring({
     left: showDrawer ? styles.drawerOpen.left : styles.drawerClose.left,
   });
 
-  const _from = from?.toString() ?? '';
-  const _to = to?.toString() ?? '';
+  const options = useMemo(
+    () =>
+      search.map((v, i) => {
+        return {
+          key: i,
+          label: (v?.place_name as string) ?? '',
+        };
+      }),
+    [search]
+  );
 
   const AnimatedMenu = animated(Box);
 
@@ -27,7 +85,11 @@ const NavigationMenu = () => {
       <Box>
         <Box sx={styles.inputWrapper}>
           <TripOriginIcon sx={styles.origin} />
-          <Input sx={styles.input} placeholder='Origin' value={_from} />
+          <AutoCompleteComponent
+            isLoading={isLoadingSearch}
+            options={options}
+            changeHandler={handleChangeFrom}
+          />
         </Box>
         <Box sx={styles.dividerWrapper}>
           <Box sx={styles.moreWrapper}>
@@ -37,7 +99,11 @@ const NavigationMenu = () => {
         </Box>
         <Box sx={styles.inputWrapper}>
           <TripOriginIcon sx={styles.destination} />
-          <Input sx={styles.input} placeholder='Destination' value={_to} />
+          <AutoCompleteComponent
+            isLoading={isLoadingSearch}
+            options={options}
+            changeHandler={handleChangeTo}
+          />
         </Box>
       </Box>
       <Box>

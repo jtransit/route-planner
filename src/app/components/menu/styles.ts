@@ -26,8 +26,17 @@ const styles = {
     swapIcon: { fill: '#767676', fontSize: '2rem' },
     input: {
       width: '20rem',
-      '&::before': {
+      border: '0px',
+      '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
         border: '0px',
+        borderRadius: '0px',
+        borderBottom: '1px solid gray',
+      },
+      '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+        borderColor: 'blue',
+      },
+      '& .MuiOutlinedInput-root': {
+        padding: '0px',
       },
     },
     divider: {
