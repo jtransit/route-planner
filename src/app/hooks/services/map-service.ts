@@ -18,7 +18,7 @@ const useMapService = () => {
       url: `mapbox.places/${key}.json`,
       params: {
         access_token:
-          'pk.eyJ1IjoiYm9zY2Fmc29mdHdhcmUiLCJhIjoiY2p4aXlycjV0MGp5ODN4b2hwd3FiNzVybyJ9.Vu_BK9NBwwdyu2hrhLFHig',
+          process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
       },
     };
 
