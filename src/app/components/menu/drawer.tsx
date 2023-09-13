@@ -7,6 +7,7 @@ import { useSpring, animated } from '@react-spring/web';
 import { useAppContext } from '@contexts/app-context';
 import AppIcon from '@assets/icons/app';
 import _styles from './styles';
+import ThemeSwitch from '@components/theme/theme-switch';
 
 const styles = _styles.drawer;
 
@@ -69,6 +70,9 @@ const Drawer = () => {
             label={'Settings'}
             isSelected={false}
           />
+        </Box>
+        <Box>
+          <ThemeSwitch onChange={(e) => {console.log(e.target.value)}} />
         </Box>
       </AnimatedDrawer>
     </Box>
