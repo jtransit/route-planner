@@ -29,9 +29,12 @@ JTransit Route Plotter is an app used to map out Jeepney routes in Cebu City, Ph
 1. Web application written in React
 2. Firebase as backend
 
-# Getting Started
+# Setting up Development Environment
 
-First, run the development server:
+1. Create an `.env` file using the `.env.template` (supply the necessary values)
+  _NOTE: You'll need to setup a Mapbox API and generate the token_
+
+2. Run the development server:
 
 ```bash
 npm run dev
