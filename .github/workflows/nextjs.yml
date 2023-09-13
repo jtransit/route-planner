@@ -73,6 +73,11 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      # Create an .env file from Github Secrets, to avoid exposure of API token
+      - name: Create .env file
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.MAPBOX_TOKEN }}
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: Static HTML export with Next.js
@@ -81,11 +86,6 @@ jobs:
         uses: actions/upload-pages-artifact@v2
         with:
           path: ./out
-      # Create an .env file from Github Secrets, to avoid exposure of API token
-      - name: Create .env file
-        uses: SpicyPizza/create-envfile@v2.0
-        with:
-          envkey_NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.MAPBOX_TOKEN }}
 
   # Deployment job
   deploy:
