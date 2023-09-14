@@ -30,10 +30,9 @@ const styles = {
       '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
         border: '0px',
         borderRadius: '0px',
-        borderBottom: '1px solid gray',
       },
       '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'blue',
+        borderBottom: '1px solid blue',
       },
       '& .MuiOutlinedInput-root': {
         padding: '0px',

@@ -17,8 +17,8 @@ export interface MapContextProps {
   handleAction: (v?: string) => void;
   handleContextMenuOpen: (e: L.LeafletMouseEvent) => void;
   handleContextMenuClose: () => void;
-  handleChangeFrom: (v?: string) => void;
-  handleChangeTo: (v?: string) => void;
+  handleChangeFrom: (v?: string, latLng?: number[]) => void;
+  handleChangeTo: (v?: string, latLng?: number[]) => void;
   handleRemove: () => void;
 }
 
@@ -33,8 +33,8 @@ export const defaultMapContext: MapContextProps = {
   handleAction: (v?: string) => {},
   handleContextMenuOpen: (e: L.LeafletMouseEvent) => {},
   handleContextMenuClose: () => {},
-  handleChangeFrom: (v?: string) => {},
-  handleChangeTo: (v?: string) => {},
+  handleChangeFrom: (v?: string, latLng?: number[]) => {},
+  handleChangeTo: (v?: string, latLng?: number[]) => {},
   handleRemove: () => {},
 };
 

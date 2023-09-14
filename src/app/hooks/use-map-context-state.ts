@@ -28,13 +28,10 @@ const useMapContextState: () => MapContextProps = () => {
 
   const lastWaypointIndex = waypoints.length - 1;
 
-  const waypointLatLng = useMemo(() => {
-    // TODO: reverse lookup search for given string address
-    return {
-      from: waypoints[FIRST_INDEX].latLng,
-      to: waypoints[waypoints.length - 1].latLng,
-    };
-  }, [waypoints]);
+  const debouncedSearch = useMemo(
+    () => debounce((v: string) => search(v), 1000),
+    []
+  );
 
   const handleLoading = (v: boolean) => {
     dispatch({ type: actions.handleLoading, value: v });
@@ -52,36 +49,57 @@ const useMapContextState: () => MapContextProps = () => {
     dispatch({ type: actions.handleContextMenuClose });
   };
 
-  const debouncedSearch = useMemo(
-    () => debounce((v: string) => search(v), 1000),
-    []
-  );
-
-  const handleChangeFrom = (address?: string) => {
-    if (address) {
+  // TODO: refactor to follow DRY principle
+  const handleChangeFrom = (address?: string, latLng?: number[]) => {
+    if (address !== undefined) {
       dispatch({
         type: actions.handleChangeFrom,
         value: address,
       });
       debouncedSearch(address);
+      if (latLng) {
+        handleSpliceWaypoints(
+          FIRST_INDEX,
+          ITEMS_TO_REMOVE,
+          new L.LatLng(latLng[1], latLng[0])
+        );
+      }
     } else {
-      // TODO: reverse lookup search for given string address
       handleSpliceWaypoints(FIRST_INDEX, ITEMS_TO_REMOVE, state.latLng);
       handleContextMenuClose();
+      search(`${state.latLng.lng},${state.latLng.lat}`).then((v) => {
+        dispatch({
+          type: actions.handleChangeFrom,
+          value: v?.data?.features[0]?.place_name ?? '',
+        });
+      });
     }
   };
 
-  const handleChangeTo = (address?: string) => {
-    if (address) {
+  // TODO: refactor to follow DRY principle
+  const handleChangeTo = (address?: string, latLng?: number[]) => {
+    if (address !== undefined) {
       dispatch({
         type: actions.handleChangeTo,
         value: address,
       });
       debouncedSearch(address);
+      if (latLng) {
+        handleSpliceWaypoints(
+          lastWaypointIndex,
+          ITEMS_TO_REMOVE,
+          new L.LatLng(latLng[1], latLng[0])
+        );
+      }
     } else {
-      // TODO: reverse lookup search for given string address
       handleSpliceWaypoints(lastWaypointIndex, ITEMS_TO_REMOVE, state.latLng);
       handleContextMenuClose();
+      search(`${state.latLng.lng},${state.latLng.lat}`).then((v) => {
+        dispatch({
+          type: actions.handleChangeTo,
+          value: v?.data?.features[0]?.place_name ?? '',
+        });
+      });
     }
   };
 
@@ -96,6 +114,30 @@ const useMapContextState: () => MapContextProps = () => {
   useEffect(() => {
     routingControl?.addTo(map);
   }, [routingControl]);
+
+  // TODO: refactor to follow DRY principle
+  useEffect(() => {
+    const from = waypoints[FIRST_INDEX].latLng;
+    search(`${from.lng},${from.lat}`).then((v) => {
+      dispatch({
+        type: actions.handleChangeFrom,
+        value: v?.data?.features[0]?.place_name ?? '',
+      });
+    });
+  }, [waypoints[FIRST_INDEX].latLng]);
+
+  // TODO: refactor to follow DRY principle
+  useEffect(() => {
+    const to = waypoints[lastWaypointIndex].latLng;
+    if (to) {
+      search(`${to.lng},${to.lat}`).then((v) => {
+        dispatch({
+          type: actions.handleChangeTo,
+          value: v?.data?.features[0]?.place_name ?? '',
+        });
+      });
+    }
+  }, [waypoints[lastWaypointIndex].latLng]);
 
   const defaults = {
     isLoading: state.isLoading,
