@@ -2,49 +2,42 @@ import { ReactNode } from 'react';
 import L from 'leaflet';
 
 import { Suggestions, defaultSuggestions } from '@app-types/map-service';
+import { Location, LocationInfo } from '@app-types/directions';
 
 export interface MapContextProps {
+  defaults: DefaultProps;
+  directions: DirectionProps;
+  contextMenu: ContextMenuProps;
+}
+
+interface DefaultProps {
   isLoading: boolean;
-  isContextMenuOpen: boolean;
   action?: string;
-  containerPoint: L.Point;
-  latLng: L.LatLng;
-  from?: Location;
-  to?: Location;
-  isLoadingSearch: boolean;
-  search: Suggestions['features'];
   handleLoading: (v: boolean) => void;
   handleAction: (v?: string) => void;
-  handleContextMenuOpen: (e: L.LeafletMouseEvent) => void;
-  handleContextMenuClose: () => void;
+}
+
+interface DirectionProps {
+  location: Location;
+  search: {
+    isLoading: boolean;
+    list: Suggestions['features'];
+  };
   handleChangeFrom: (v?: string, latLng?: number[]) => void;
   handleChangeTo: (v?: string, latLng?: number[]) => void;
   handleRemove: () => void;
 }
 
-export const defaultMapContext: MapContextProps = {
-  isLoading: false,
-  isContextMenuOpen: false,
-  containerPoint: new L.Point(0, 0),
-  latLng: new L.LatLng(0, 0),
-  isLoadingSearch: false,
-  search: defaultSuggestions.features,
-  handleLoading: () => {},
-  handleAction: (v?: string) => {},
-  handleContextMenuOpen: (e: L.LeafletMouseEvent) => {},
-  handleContextMenuClose: () => {},
-  handleChangeFrom: (v?: string, latLng?: number[]) => {},
-  handleChangeTo: (v?: string, latLng?: number[]) => {},
-  handleRemove: () => {},
-};
+interface ContextMenuProps {
+  isContextMenuOpen: boolean;
+  containerPoint: L.Point;
+  latLng: L.LatLng;
+  handleContextMenuOpen: (e: L.LeafletMouseEvent) => void;
+  handleContextMenuClose: () => void;
+}
 
 export interface MapContextProviderProps {
   children: ReactNode;
-}
-
-interface Location {
-  address?: string;
-  latLng?: L.LatLng;
 }
 
 export interface MapState {
@@ -54,8 +47,8 @@ export interface MapState {
   containerPoint: L.Point;
   eventHandler?: L.LeafletMouseEvent;
   latLng: L.LatLng;
-  from?: Location;
-  to?: Location;
+  from: LocationInfo;
+  to: LocationInfo;
 }
 
 export interface MapAction {
@@ -63,9 +56,47 @@ export interface MapAction {
   value?: string | boolean | L.LeafletMouseEvent;
 }
 
+export const defaultMapContext: MapContextProps = {
+  defaults: {
+    isLoading: false,
+    handleLoading: () => {},
+    handleAction: (v?: string) => {},
+  },
+  directions: {
+    location: {
+      from: {
+        address: '',
+      },
+      to: {
+        address: '',
+      },
+    },
+    search: {
+      isLoading: false,
+      list: defaultSuggestions.features,
+    },
+    handleChangeFrom: (v?: string, latLng?: number[]) => {},
+    handleChangeTo: (v?: string, latLng?: number[]) => {},
+    handleRemove: () => {},
+  },
+  contextMenu: {
+    isContextMenuOpen: false,
+    containerPoint: new L.Point(0, 0),
+    latLng: new L.LatLng(0, 0),
+    handleContextMenuOpen: (e: L.LeafletMouseEvent) => {},
+    handleContextMenuClose: () => {},
+  },
+};
+
 export const defaultMapState: MapState = {
   isLoading: false,
   isContextMenuOpen: false,
-  containerPoint: defaultMapContext.containerPoint,
-  latLng: defaultMapContext.latLng,
+  containerPoint: defaultMapContext.contextMenu.containerPoint,
+  latLng: defaultMapContext.contextMenu.latLng,
+  from: {
+    address: '',
+  },
+  to: {
+    address: '',
+  },
 };

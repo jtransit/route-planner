@@ -14,12 +14,13 @@ import { useSpring, animated } from '@react-spring/web';
 import { useAppContext } from '@contexts/app-context';
 import { useMapContext } from '@contexts/map-context';
 import _styles from './styles';
+import { LngLat } from '@app-types/directions';
 
 const styles = _styles.nav;
 
 interface Option {
   label: string;
-  center: number[];
+  center: LngLat;
 }
 
 interface AutoCompleteComponentProps {
@@ -68,12 +69,12 @@ const NavigationMenu = () => {
   const { showDrawer } = useAppContext();
 
   const {
-    isLoadingSearch,
-    search,
-    from,
-    to,
-    handleChangeFrom,
-    handleChangeTo,
+    directions: {
+      search: { isLoading: isLoadingSearch, list },
+      location: { from, to },
+      handleChangeFrom,
+      handleChangeTo,
+    },
   } = useMapContext();
 
   const props = useSpring({
@@ -82,13 +83,13 @@ const NavigationMenu = () => {
 
   const options = useMemo(
     () =>
-      search.map((v) => {
+      list.map((v) => {
         return {
-          center: (v?.center as number[]) ?? [0, 0],
-          label: (v?.place_name as string) ?? '',
+          center: v.center,
+          label: v.place_name,
         };
       }),
-    [search]
+    [list]
   );
 
   const AnimatedMenu = animated(Box);
@@ -102,7 +103,7 @@ const NavigationMenu = () => {
             isLoading={isLoadingSearch}
             options={options}
             value={{
-              center: [from?.latLng?.lng ?? 0, from?.latLng?.lat ?? 0],
+              center: [from.latLng?.lng ?? 0, from.latLng?.lat ?? 0],
               label: from?.address ?? '',
             }}
             changeHandler={handleChangeFrom}
@@ -120,8 +121,8 @@ const NavigationMenu = () => {
             isLoading={isLoadingSearch}
             options={options}
             value={{
-              center: [to?.latLng?.lng ?? 0, to?.latLng?.lat ?? 0],
-              label: to?.address ?? '',
+              center: [to.latLng?.lng ?? 0, to.latLng?.lat ?? 0],
+              label: to.address ?? '',
             }}
             changeHandler={handleChangeTo}
           />

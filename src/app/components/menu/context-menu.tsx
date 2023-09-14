@@ -4,12 +4,9 @@ import { actions } from '@components/map/actions';
 
 export const Menu = () => {
   const {
-    isContextMenuOpen,
-    containerPoint,
-    action,
-    handleChangeFrom,
-    handleChangeTo,
-    handleRemove,
+    defaults: { action },
+    contextMenu: { isContextMenuOpen, containerPoint },
+    directions: { handleChangeFrom, handleChangeTo, handleRemove },
   } = useMapContext();
 
   return (
