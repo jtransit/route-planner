@@ -30,5 +30,5 @@ export interface AppAction {
 
 export const defaultAppState = {
   isLoading: false,
-  showDrawer: true,
+  showDrawer: false,
 };
