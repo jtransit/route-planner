@@ -13,9 +13,8 @@ import { useSpring, animated } from '@react-spring/web';
 
 import { useAppContext } from '@contexts/app-context';
 import { useMapContext } from '@contexts/map-context';
-import _styles from './styles';
-
-const styles = _styles.nav;
+import { useThemeContext } from '@contexts/theme-context';
+import componentStyles from './styles';
 
 const AutoCompleteComponent = ({
   isLoading,
@@ -29,6 +28,9 @@ const AutoCompleteComponent = ({
   }[];
   changeHandler: (v?: string) => void;
 }) => {
+  const { theme } = useThemeContext();
+  const styles = componentStyles(theme.palette.mode).nav;
+
   return (
     <Autocomplete
       options={options}
@@ -59,6 +61,8 @@ const AutoCompleteComponent = ({
 
 const NavigationMenu = () => {
   const { showDrawer } = useAppContext();
+  const { theme } = useThemeContext();
+  const styles = componentStyles(theme.palette.mode).nav;
 
   const { isLoadingSearch, search, handleChangeFrom, handleChangeTo } =
     useMapContext();

@@ -2,6 +2,7 @@
 
 import { styled } from "@mui/material/styles";
 import Switch, { SwitchProps } from "@mui/material/Switch";
+import { themeName } from "@app-types/theme-context";
 
 const ThemeSwitch = styled(Switch)<SwitchProps>(({ theme }) => ({
   zIndex: 400,
@@ -22,12 +23,12 @@ const ThemeSwitch = styled(Switch)<SwitchProps>(({ theme }) => ({
       },
       "& + .MuiSwitch-track": {
         opacity: 1,
-        backgroundColor: theme.palette.mode === "dark" ? "#8796A5" : "#aab4be",
+        backgroundColor: theme.palette.mode === themeName.DARK ? "#8796A5" : "#aab4be",
       },
     },
   },
   "& .MuiSwitch-thumb": {
-    backgroundColor: theme.palette.mode === "dark" ? "#003892" : "#001e3c",
+    backgroundColor: theme.palette.mode === themeName.DARK ? "#003892" : "#66ccff",
     width: 32,
     height: 32,
     "&:before": {
@@ -46,7 +47,7 @@ const ThemeSwitch = styled(Switch)<SwitchProps>(({ theme }) => ({
   },
   "& .MuiSwitch-track": {
     opacity: 1,
-    backgroundColor: theme.palette.mode === "dark" ? "#8796A5" : "#aab4be",
+    backgroundColor: theme.palette.mode === themeName.DARK ? "#8796A5" : "#aab4be",
     borderRadius: 10,
   },
 }));
