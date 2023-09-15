@@ -54,12 +54,15 @@ const useMapContextState: () => MapContextProps = () => {
       action === actions.handleChangeFrom ? FIRST_INDEX : lastWaypointIndex;
 
     const location = waypoints[index].latLng;
-    search(`${location.lng},${location.lat}`).then((v) => {
-      dispatch({
-        type: action,
-        value: v?.data?.features[0]?.place_name ?? '',
+
+    if (location) {
+      search(`${location.lng},${location.lat}`).then((v) => {
+        dispatch({
+          type: action,
+          value: v?.data?.features[0]?.place_name ?? '',
+        });
       });
-    });
+    }
   };
 
   const handleChangeDirection = (
