@@ -11,8 +11,10 @@ const STRING = 'string';
 
 export const Events = () => {
   const { handleShowDrawer } = useAppContext();
-  const { handleContextMenuOpen, handleContextMenuClose, handleAction } =
-    useMapContext();
+  const {
+    defaults: { handleAction },
+    contextMenu: { handleContextMenuOpen, handleContextMenuClose },
+  } = useMapContext();
 
   const isMap = (e: L.LeafletMouseEvent) => {
     const className = (e.originalEvent.target as HTMLInputElement).className;

@@ -17,8 +17,7 @@ const useMapService = () => {
     const _config = {
       url: `mapbox.places/${key}.json`,
       params: {
-        access_token:
-          process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
+        access_token: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
       },
     };
 
@@ -26,6 +25,8 @@ const useMapService = () => {
     const response = await client.request({ ...config, ..._config });
     setSearchSuggestions(response.data);
     setIsLoading(false);
+
+    return response;
   };
 
   return {
