@@ -10,7 +10,7 @@ const LEAFLET = 'leaflet';
 const STRING = 'string';
 
 export const Events = () => {
-  const { handleShowDrawer } = useAppContext();
+  const { handleShowDrawer, handleShowNavigationMenu } = useAppContext();
   const {
     defaults: { handleAction },
     contextMenu: { handleContextMenuOpen, handleContextMenuClose },
@@ -47,7 +47,12 @@ export const Events = () => {
       handleReset();
     },
     dragstart: () => {
+      handleShowNavigationMenu(false);
+      handleShowDrawer(false);
       handleReset();
+    },
+    dragend: () => {
+      handleShowNavigationMenu(true);
     },
     contextmenu: (e) => {
       if (isMap(e)) {

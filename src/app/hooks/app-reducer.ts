@@ -2,7 +2,7 @@ import { AppAction, AppState } from '@app-types/app-context';
 import { actions } from './actions';
 
 export const appReducer = (state: AppState, action: AppAction) => {
-  let newState;
+  let newState: AppState;
 
   switch (action.type) {
     case actions.handleLoading: {
@@ -16,6 +16,13 @@ export const appReducer = (state: AppState, action: AppAction) => {
       newState = {
         ...state,
         showDrawer: action.value as boolean,
+      };
+      break;
+    }
+    case actions.handleShowNavigationMenu: {
+      newState = {
+        ...state,
+        showNavigationMenu: action.value as boolean,
       };
       break;
     }
