@@ -10,8 +10,7 @@ const useMapService = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [searchSuggestions, setSearchSuggestions] =
-    useState<Suggestions>(defaultSuggestions);
+  const [list, setList] = useState<Suggestions>(defaultSuggestions);
 
   const search = async (key: string, config?: AxiosRequestConfig) => {
     const _config = {
@@ -23,15 +22,15 @@ const useMapService = () => {
 
     setIsLoading(true);
     const response = await client.request({ ...config, ..._config });
-    setSearchSuggestions(response.data);
+    setList(response.data);
     setIsLoading(false);
 
-    return response;
+    return response.data as Suggestions;
   };
 
   return {
     isLoading,
-    searchSuggestions,
+    list,
     search,
   };
 };
