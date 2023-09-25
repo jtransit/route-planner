@@ -15,11 +15,17 @@ const useAppContextState: () => AppContextProps = () => {
     dispatch({ type: actions.handleShowDrawer, value: v });
   };
 
+  const handleShowNavigationMenu = (v: boolean) => {
+    dispatch({ type: actions.handleShowNavigationMenu, value: v });
+  };
+
   return {
     isLoading: state.isLoading,
     showDrawer: state.showDrawer,
+    showNavigationMenu: state.showNavigationMenu,
     handleLoading,
     handleShowDrawer,
+    handleShowNavigationMenu,
   };
 };
 

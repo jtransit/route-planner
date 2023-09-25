@@ -28,13 +28,10 @@ const useMapContextState: () => MapContextProps = () => {
 
   const lastWaypointIndex = waypoints.length - 1;
 
-  const waypointLatLng = useMemo(() => {
-    // TODO: reverse lookup search for given string address
-    return {
-      from: waypoints[FIRST_INDEX].latLng,
-      to: waypoints[waypoints.length - 1].latLng,
-    };
-  }, [waypoints]);
+  const debouncedSearch = useMemo(
+    () => debounce((v: string) => search(v), 1000),
+    []
+  );
 
   const handleLoading = (v: boolean) => {
     dispatch({ type: actions.handleLoading, value: v });
@@ -52,37 +49,61 @@ const useMapContextState: () => MapContextProps = () => {
     dispatch({ type: actions.handleContextMenuClose });
   };
 
-  const debouncedSearch = useMemo(
-    () => debounce((v: string) => search(v), 1000),
-    []
-  );
+  const handleUpdatePlaceName = (action: string) => {
+    const index =
+      action === actions.handleChangeFrom ? FIRST_INDEX : lastWaypointIndex;
 
-  const handleChangeFrom = (address?: string) => {
-    if (address) {
-      dispatch({
-        type: actions.handleChangeFrom,
-        value: address,
+    const location = waypoints[index].latLng;
+
+    if (location) {
+      search(`${location.lng},${location.lat}`).then((v) => {
+        dispatch({
+          type: action,
+          value: v?.data?.features[0]?.place_name ?? '',
+        });
       });
-      debouncedSearch(address);
-    } else {
-      // TODO: reverse lookup search for given string address
-      handleSpliceWaypoints(FIRST_INDEX, ITEMS_TO_REMOVE, state.latLng);
-      handleContextMenuClose();
     }
   };
 
-  const handleChangeTo = (address?: string) => {
-    if (address) {
+  const handleChangeDirection = (
+    action: string,
+    address?: string,
+    latLng?: number[]
+  ) => {
+    const index =
+      action === actions.handleChangeFrom ? FIRST_INDEX : lastWaypointIndex;
+
+    if (address !== undefined) {
       dispatch({
-        type: actions.handleChangeTo,
+        type: action,
         value: address,
       });
       debouncedSearch(address);
+      if (latLng) {
+        handleSpliceWaypoints(
+          index,
+          ITEMS_TO_REMOVE,
+          new L.LatLng(latLng[1], latLng[0])
+        );
+      }
     } else {
-      // TODO: reverse lookup search for given string address
-      handleSpliceWaypoints(lastWaypointIndex, ITEMS_TO_REMOVE, state.latLng);
+      handleSpliceWaypoints(index, ITEMS_TO_REMOVE, state.latLng);
       handleContextMenuClose();
+      search(`${state.latLng.lng},${state.latLng.lat}`).then((v) => {
+        dispatch({
+          type: action,
+          value: v?.data?.features[0]?.place_name ?? '',
+        });
+      });
     }
+  };
+
+  const handleChangeFrom = (address?: string, latLng?: number[]) => {
+    handleChangeDirection(actions.handleChangeFrom, address, latLng);
+  };
+
+  const handleChangeTo = (address?: string, latLng?: number[]) => {
+    handleChangeDirection(actions.handleChangeTo, address, latLng);
   };
 
   const handleRemove = () => {
@@ -97,35 +118,41 @@ const useMapContextState: () => MapContextProps = () => {
     routingControl?.addTo(map);
   }, [routingControl]);
 
-  const defaults = {
-    isLoading: state.isLoading,
-    action: state.action,
-    handleLoading,
-    handleAction,
-  };
+  useEffect(() => {
+    handleUpdatePlaceName(actions.handleChangeFrom);
+  }, [waypoints[FIRST_INDEX].latLng]);
 
-  const directions = {
-    from: state?.from,
-    to: state?.to,
-    isLoadingSearch,
-    search: searchSuggestions.features,
-    handleChangeFrom,
-    handleChangeTo,
-    handleRemove,
-  };
-
-  const contextMenu = {
-    isContextMenuOpen: state.isContextMenuOpen,
-    containerPoint: state.containerPoint,
-    latLng: state.latLng,
-    handleContextMenuOpen,
-    handleContextMenuClose,
-  };
+  useEffect(() => {
+    handleUpdatePlaceName(actions.handleChangeTo);
+  }, [waypoints[lastWaypointIndex].latLng]);
 
   return {
-    ...defaults,
-    ...directions,
-    ...contextMenu,
+    defaults: {
+      isLoading: state.isLoading,
+      action: state.action,
+      handleLoading,
+      handleAction,
+    },
+    directions: {
+      location: {
+        from: state.from,
+        to: state.to,
+      },
+      search: {
+        isLoading: isLoadingSearch,
+        list: searchSuggestions.features,
+      },
+      handleChangeFrom,
+      handleChangeTo,
+      handleRemove,
+    },
+    contextMenu: {
+      isContextMenuOpen: state.isContextMenuOpen,
+      containerPoint: state.containerPoint,
+      latLng: state.latLng,
+      handleContextMenuOpen,
+      handleContextMenuClose,
+    },
   };
 };
 

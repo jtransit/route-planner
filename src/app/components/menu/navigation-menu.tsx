@@ -1,11 +1,5 @@
 import { useMemo } from 'react';
-import {
-  Box,
-  Divider,
-  Autocomplete,
-  TextField,
-  CircularProgress,
-} from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import TripOriginIcon from '@mui/icons-material/TripOrigin';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
@@ -13,73 +7,37 @@ import { useSpring, animated } from '@react-spring/web';
 
 import { useAppContext } from '@contexts/app-context';
 import { useMapContext } from '@contexts/map-context';
-import { useThemeContext } from '@contexts/theme-context';
-import componentStyles from './styles';
+import _styles from './styles';
+import AutoCompleteComponent from './autocomplete';
 
-const AutoCompleteComponent = ({
-  isLoading,
-  options,
-  changeHandler,
-}: {
-  isLoading: boolean;
-  options: {
-    key: number;
-    label: string;
-  }[];
-  changeHandler: (v?: string) => void;
-}) => {
-  const { theme } = useThemeContext();
-  const styles = componentStyles(theme.palette.mode).nav;
-
-  return (
-    <Autocomplete
-      options={options}
-      sx={styles.input}
-      onChange={(e) => {
-        changeHandler((e.target as HTMLInputElement).innerHTML);
-      }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          onChange={(e) => changeHandler((e.target as HTMLInputElement).value)}
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <>
-                {isLoading ? (
-                  <CircularProgress color='inherit' size={20} />
-                ) : null}
-                {params.InputProps.endAdornment}
-              </>
-            ),
-          }}
-        />
-      )}
-    />
-  );
-};
+const styles = _styles.nav;
 
 const NavigationMenu = () => {
-  const { showDrawer } = useAppContext();
-  const { theme } = useThemeContext();
-  const styles = componentStyles(theme.palette.mode).nav;
+  const { showDrawer, showNavigationMenu } = useAppContext();
 
-  const { isLoadingSearch, search, handleChangeFrom, handleChangeTo } =
-    useMapContext();
+  const {
+    directions: {
+      search: { isLoading: isLoadingSearch, list },
+      location: { from, to },
+      handleChangeFrom,
+      handleChangeTo,
+    },
+  } = useMapContext();
 
   const props = useSpring({
     left: showDrawer ? styles.drawerOpen.left : styles.drawerClose.left,
+    opacity: showNavigationMenu ? 1 : 0,
   });
 
   const options = useMemo(
     () =>
-      search.map((v, i) => {
+      list.map((v) => {
         return {
-          key: i,
-          label: (v?.place_name as string) ?? '',
+          center: v.center,
+          label: v.place_name,
         };
       }),
-    [search]
+    [list]
   );
 
   const AnimatedMenu = animated(Box);
@@ -92,6 +50,11 @@ const NavigationMenu = () => {
           <AutoCompleteComponent
             isLoading={isLoadingSearch}
             options={options}
+            placeholder='Directions from'
+            value={{
+              center: [from.latLng?.lng ?? 0, from.latLng?.lat ?? 0],
+              label: from.address ?? '',
+            }}
             changeHandler={handleChangeFrom}
           />
         </Box>
@@ -106,6 +69,11 @@ const NavigationMenu = () => {
           <AutoCompleteComponent
             isLoading={isLoadingSearch}
             options={options}
+            placeholder='Directions to'
+            value={{
+              center: [to.latLng?.lng ?? 0, to.latLng?.lat ?? 0],
+              label: to.address ?? '',
+            }}
             changeHandler={handleChangeTo}
           />
         </Box>

@@ -10,9 +10,11 @@ const LEAFLET = 'leaflet';
 const STRING = 'string';
 
 export const Events = () => {
-  const { handleShowDrawer } = useAppContext();
-  const { handleContextMenuOpen, handleContextMenuClose, handleAction } =
-    useMapContext();
+  const { handleShowDrawer, handleShowNavigationMenu } = useAppContext();
+  const {
+    defaults: { handleAction },
+    contextMenu: { handleContextMenuOpen, handleContextMenuClose },
+  } = useMapContext();
 
   const isMap = (e: L.LeafletMouseEvent) => {
     const className = (e.originalEvent.target as HTMLInputElement).className;
@@ -45,7 +47,12 @@ export const Events = () => {
       handleReset();
     },
     dragstart: () => {
+      handleShowNavigationMenu(false);
+      handleShowDrawer(false);
       handleReset();
+    },
+    dragend: () => {
+      handleShowNavigationMenu(true);
     },
     contextmenu: (e) => {
       if (isMap(e)) {

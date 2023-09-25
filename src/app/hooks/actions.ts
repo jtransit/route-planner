@@ -7,4 +7,5 @@ export const actions = {
   handleChangeFrom: 'handleChangeFrom',
   handleChangeTo: 'handleChangeTo',
   toggleTheme: 'toggleTheme',
+  handleShowNavigationMenu: 'handleShowNavigationMenu',
 };
