@@ -7,7 +7,7 @@ import { useSpring, animated } from '@react-spring/web';
 import { useAppContext } from '@contexts/app-context';
 import { useThemeContext } from '@contexts/theme-context';
 import AppIcon from '@assets/icons/app';
-import componentStyles from './styles';
+import _styles from './styles';
 import ThemeSwitch from '@components/theme/theme-switch';
 import { themeName } from '@app-types/theme-context';
 
@@ -22,7 +22,7 @@ const DrawerItem = ({
 }) => {
   const { showDrawer } = useAppContext();
   const { theme } = useThemeContext();
-  const styles = componentStyles(theme.palette.mode).drawer;
+  const styles = _styles(theme.palette.mode).drawer;
 
   return (
     <Box sx={styles.item}>
@@ -45,7 +45,7 @@ const DrawerItem = ({
 const Drawer = () => {
   const { showDrawer, handleShowDrawer } = useAppContext();
   const { theme, toggleTheme } = useThemeContext();
-  const styles = componentStyles(theme.palette.mode).drawer;
+  const styles = _styles(theme.palette.mode).drawer;
   const props = useSpring({
     width: showDrawer ? styles.open.width : styles.close.width,
   });

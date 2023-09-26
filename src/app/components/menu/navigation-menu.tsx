@@ -9,11 +9,12 @@ import { useAppContext } from '@contexts/app-context';
 import { useMapContext } from '@contexts/map-context';
 import _styles from './styles';
 import AutoCompleteComponent from './autocomplete';
-
-const styles = _styles.nav;
+import { useThemeContext } from '@/app/contexts/theme-context';
 
 const NavigationMenu = () => {
   const { showDrawer, showNavigationMenu } = useAppContext();
+  const { theme } = useThemeContext();
+  const styles = _styles(theme.palette.mode).nav;
 
   const {
     directions: {

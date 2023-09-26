@@ -18,17 +18,17 @@ const ThemeContextProvider = ({
   children,
 }: ThemeContextProviderProps) => {
 
-  const value = useThemeContextState();
+  const themeContext = useThemeContextState();
 
   return (
-    <ThemeContext.Provider value={value}>
-      <ThemeProvider theme={value.theme}>
-        <div className={value.theme.palette.mode}>
+    <ThemeContext.Provider value={themeContext}>
+      <ThemeProvider theme={themeContext.theme}>
+        <div className={themeContext.theme.palette.mode}>
           {children}
         </div>
       </ThemeProvider>
     </ThemeContext.Provider>
-    
+
   );
 };
 
