@@ -122,10 +122,6 @@ const useMapContextState: () => MapContextProps = () => {
     handleUpdatePlaceName(actions.handleChangeTo);
   }, [waypoints[lastWaypointIndex].latLng]);
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
-
   return {
     defaults: {
       isLoading: state.isLoading,
