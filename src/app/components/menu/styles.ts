@@ -1,4 +1,6 @@
-const styles = {
+import { themeName } from "@app-types/theme-context";
+
+const styles = (mode: string) => ({
   nav: {
     menu: {
       boxShadow: 2,
@@ -12,7 +14,7 @@ const styles = {
       height: 'auto',
       border: '1px solid transparent',
       borderRadius: '5px',
-      background: 'white',
+      background: mode === themeName.DARK ? '#263238' : 'white',
       top: '1.5rem',
       padding: '0.5rem',
     },
@@ -23,7 +25,10 @@ const styles = {
     destination: { fill: '#F44336' },
     moreWrapper: { width: '24px', display: 'flex', justifyContent: 'center' },
     moreIcon: { fill: '#767676', fontSize: '1.2rem' },
-    swapIcon: { fill: '#767676', fontSize: '2rem' },
+    swapIcon: { 
+      fill: mode === themeName.DARK ? '#666666' : '#9E9E9E', 
+      fontSize: '2rem' 
+    },
     input: {
       width: '20rem',
       border: '0px',
@@ -53,7 +58,7 @@ const styles = {
       position: 'absolute',
       zIndex: 400,
       top: 0,
-      background: 'white',
+      background: mode === themeName.DARK ? '#263238' : '#FAFAFA',
       height: '100%',
     },
     open: {
@@ -69,10 +74,13 @@ const styles = {
         cursor: 'pointer',
       },
     },
+    optionsIcon: {
+      fill: mode === themeName.DARK ? '#FAFAFA' : '#1C1B1F',
+    },
     appIconWrapper: {
       display: 'flex',
       justifyContent: 'center',
-      background: '#FE8A64',
+      background: mode === themeName.DARK ? '#212121' : '#FE8A64',
       height: '8rem',
     },
     items: {
@@ -80,6 +88,9 @@ const styles = {
       display: 'flex',
       flexDirection: 'column',
       gap: '0.5rem',
+    },
+    label: {
+      color: mode === themeName.DARK ? '#FAFAFA' : '#1C1B1F',
     },
     item: {
       display: 'flex',
@@ -93,7 +104,7 @@ const styles = {
       padding: '0.8rem',
       boxShadow: '2px 2px 4px 0px rgba(0, 0, 0, 0.25) inset',
       borderRadius: '0.3125rem',
-      background: '#F0F0F0',
+      background: mode === themeName.DARK ? '#455A64' : '#F0F0F0',
     },
     itemIconWrapperNotSelected: {
       flexShrink: 0,
@@ -101,6 +112,6 @@ const styles = {
       borderRadius: '0.3125rem',
     },
   },
-};
+});
 
 export default styles;

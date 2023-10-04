@@ -5,10 +5,11 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { useSpring, animated } from '@react-spring/web';
 
 import { useAppContext } from '@contexts/app-context';
+import { useThemeContext } from '@contexts/theme-context';
 import AppIcon from '@assets/icons/app';
 import _styles from './styles';
-
-const styles = _styles.drawer;
+import ThemeSwitch from '@components/theme/theme-switch';
+import { themeName } from '@app-types/theme-context';
 
 const DrawerItem = ({
   icon,
@@ -20,6 +21,8 @@ const DrawerItem = ({
   isSelected: boolean;
 }) => {
   const { showDrawer } = useAppContext();
+  const { theme } = useThemeContext();
+  const styles = _styles(theme.palette.mode).drawer;
 
   return (
     <Box sx={styles.item}>
@@ -32,7 +35,7 @@ const DrawerItem = ({
       >
         <Box sx={[{ display: 'flex' }, showDrawer && styles.itemShow]}>
           {icon}
-          {showDrawer && <Typography>{label}</Typography>}
+          {showDrawer && <Typography sx={styles.label}>{label}</Typography>}
         </Box>
       </Box>
     </Box>
@@ -41,6 +44,8 @@ const DrawerItem = ({
 
 const Drawer = () => {
   const { showDrawer, handleShowDrawer } = useAppContext();
+  const { theme, toggleTheme } = useThemeContext();
+  const styles = _styles(theme.palette.mode).drawer;
   const props = useSpring({
     width: showDrawer ? styles.open.width : styles.close.width,
   });
@@ -60,14 +65,23 @@ const Drawer = () => {
         </Box>
         <Box sx={styles.items}>
           <DrawerItem
-            icon={<CottageOutlinedIcon />}
+            icon={<CottageOutlinedIcon sx={styles.optionsIcon} />}
             label={'Home'}
             isSelected={true}
           />
           <DrawerItem
-            icon={<SettingsOutlinedIcon />}
+            icon={<SettingsOutlinedIcon sx={styles.optionsIcon} />}
             label={'Settings'}
             isSelected={false}
+          />
+        </Box>
+        <Box>
+          <ThemeSwitch 
+            onClick={(e) => {
+              e.stopPropagation()
+              toggleTheme();
+            }} 
+            checked={theme.palette.mode === themeName.DARK}
           />
         </Box>
       </AnimatedDrawer>

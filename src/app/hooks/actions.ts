@@ -6,5 +6,6 @@ export const actions = {
   handleShowDrawer: 'handleShowDrawer',
   handleChangeFrom: 'handleChangeFrom',
   handleChangeTo: 'handleChangeTo',
+  toggleTheme: 'toggleTheme',
   handleShowNavigationMenu: 'handleShowNavigationMenu',
 };

@@ -13,15 +13,8 @@ export const Menu = () => {
     <>
       {isContextMenuOpen && (
         <div
+          className='absolute z-[400] w-[9rem] h-auto bg-white p-[0.3rem] rounded-[5px] border border-solid border-gray-100'
           style={{
-            position: 'absolute',
-            zIndex: 400,
-            width: '9rem',
-            height: 'auto',
-            border: '1px solid gray',
-            borderRadius: '5px',
-            padding: '0.3rem',
-            background: 'white',
             top: `${containerPoint.y}px`,
             left: `${containerPoint.x}px`,
           }}

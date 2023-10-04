@@ -2,8 +2,7 @@ import { Autocomplete, TextField, CircularProgress } from '@mui/material';
 
 import { LngLat } from '@app-types/directions';
 import _styles from './styles';
-
-const styles = _styles.nav;
+import { useThemeContext } from '@/app/contexts/theme-context';
 
 interface Option {
   label: string;
@@ -25,6 +24,10 @@ const AutoCompleteComponent = ({
   value,
   changeHandler,
 }: AutoCompleteComponentProps) => {
+
+  const { theme } = useThemeContext();
+  const styles = _styles(theme.palette.mode).nav;
+
   return (
     <Autocomplete
       options={options}
