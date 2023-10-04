@@ -4,10 +4,10 @@ import L from 'leaflet';
 import { debounce } from 'lodash';
 
 import useRoutingControl from '@hooks/use-routing-control';
+import useMapService from '@hooks/services/map-service';
 import { MapContextProps, defaultMapState } from '@app-types/map-context';
 import mapReducer from './map-reducer';
 import { actions } from './actions';
-import useMapService from './services/map-service';
 
 const FIRST_INDEX = 0;
 const ITEMS_TO_REMOVE = 1;
@@ -18,11 +18,7 @@ const useMapContextState: () => MapContextProps = () => {
   const { routingControl, waypoints, handleSpliceWaypoints } =
     useRoutingControl();
 
-  const {
-    isLoading: isLoadingSearch,
-    searchSuggestions,
-    search,
-  } = useMapService();
+  const { isLoading: isLoadingSearch, list, search } = useMapService();
 
   const [state, dispatch] = useReducer(mapReducer, defaultMapState);
 
@@ -53,13 +49,13 @@ const useMapContextState: () => MapContextProps = () => {
     const index =
       action === actions.handleChangeFrom ? FIRST_INDEX : lastWaypointIndex;
 
-    const location = waypoints[index].latLng;
+    const waypoint: L.LatLng | undefined = waypoints[index].latLng;
 
-    if (location) {
-      search(`${location.lng},${location.lat}`).then((v) => {
+    if (waypoint) {
+      search(`${waypoint.lng},${waypoint.lat}`).then((v) => {
         dispatch({
           type: action,
-          value: v?.data?.features[0]?.place_name ?? '',
+          value: v.features[0]?.place_name ?? '',
         });
       });
     }
@@ -92,7 +88,7 @@ const useMapContextState: () => MapContextProps = () => {
       search(`${state.latLng.lng},${state.latLng.lat}`).then((v) => {
         dispatch({
           type: action,
-          value: v?.data?.features[0]?.place_name ?? '',
+          value: v.features[0]?.place_name ?? '',
         });
       });
     }
@@ -140,7 +136,7 @@ const useMapContextState: () => MapContextProps = () => {
       },
       search: {
         isLoading: isLoadingSearch,
-        list: searchSuggestions.features,
+        list: list.features,
       },
       handleChangeFrom,
       handleChangeTo,
